@@ -8,8 +8,6 @@ from typing import TYPE_CHECKING
 
 # Project libs
 
-# App libs
-
 # If type checking, __all__
 if TYPE_CHECKING:
     pass
