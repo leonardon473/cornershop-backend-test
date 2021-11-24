@@ -43,14 +43,23 @@
                     <div class="panel-heading">
                         Crear un nuevo Menú
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id='menu_form'>
                         <div class="form-group">
                             <label>
                                 Fecha del menú
                             </label>
-                            <input type="text" id="menu_name" class="form-control" />
+                            <input type="text" id="menu_date" class="form-control" />
                         </div>
-
+                        <div class="form-group">
+                            <label>
+                                Platillos
+                            </label>
+                            <div id="food_dishes">
+                            </div>
+                            <button type="button" class="btn" onclick="addFoodDishInput();">
+                                Añadir campo
+                            </button>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row">
@@ -68,6 +77,7 @@
     <script>
         $(document).ready(function () {
             menuList();
+            addFoodDishInput();
         });
 
         // Get all menus to display
@@ -120,7 +130,20 @@
             return ret;
         }
 
+        function clearForm() {
+            var inputs = $("#menu_form").find($("input"));
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = ""
+            }
+        }
 
+        // add food dish input
+
+        function addFoodDishInput() {
+            var inputs = $("#food_dishes").find($("input"));
+            var inputForm = `<input type="text" id="food_dish_${inputs.length}" class="form-control" />`;
+            $("#food_dishes").append(inputForm);
+        }
         // --------
         //  Create
         // --------
@@ -129,15 +152,22 @@
         function addClick() {
             // Build menu object from inputs
             Menu = new Object();
-            Menu.name = $("#menu_name").val();
-            Menu.address = $("#menu_address").val();
-            Menu.birthday = $("#menu_birthday").val();
+            Menu.date = $("#menu_date").val();
+            var inputs = $("#food_dishes").find($("input"));
+            Menu.food_dishes = [];
+            for (var i = 0; i < inputs.length; i++) {
+                Menu.food_dishes.push(
+                    {
+                        food: inputs[i].value,
+                    }
+                )
+            }
             menuAdd(Menu);
         }
 
         function menuAdd(menu) {
-            var url = `http://localhost:8000/api/menus/`;
-            // console.log(JSON.stringify(menu));
+            var url = `/menu/admin/api/menus`;
+            console.log(JSON.stringify(menu));
             // Call Web API to update menu
             $.ajax({
                 url: url,
@@ -145,6 +175,7 @@
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(menu),
                 success: function (menu) {
+                    clearForm();
                     menuAddRow(menu);
                 },
                 error: function (request, message, error) {
