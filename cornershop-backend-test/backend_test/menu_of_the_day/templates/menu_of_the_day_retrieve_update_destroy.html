@@ -38,6 +38,16 @@
               </label>
               <input type="text" class="form-control" id="menu_date" />
             </div>
+            <div class="form-group">
+              <label>
+                Platillos
+              </label>
+              <div id="food_dishes">
+              </div>
+              <button type="button" class="btn" onclick="addFoodDishInput();">
+                Añadir campo
+              </button>
+            </div>
           </div>
           <div class="panel-footer">
             <div class="row">
@@ -82,6 +92,15 @@
       }
     });
 
+    // ----
+    //  UI
+    // ----
+
+    function addFoodDishInput(value = "", id = "") {
+      var inputForm = `<input type="text" data-id="${id}" class="form-control" value="${value}"/>`;
+      $("#food_dishes").append(inputForm);
+    }
+
     // --------
     //  Detail
     // --------
@@ -105,6 +124,12 @@
 
     function menuToFields(menu) {
       $("#menu_date").val(menu.date);
+      menu.food_dishes.forEach(
+        food_dish => addFoodDishInput(
+          value = food_dish.food,
+          id = food_dish.id,
+        )
+      );
     }
 
     // --------
