@@ -66,3 +66,5 @@ make up
 ## Comments
 - The id field in the model MenuOfTheDay can be changed by date field
   as PK if you believe it is better.
+- A API can be exposed to edit the menu or submit a selection but due
+  to the project is for internal use that would be over-engineering.
