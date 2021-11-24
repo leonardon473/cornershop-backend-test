@@ -159,8 +159,9 @@
 
             msg += "Code: " + request.status + "\n";
             msg += "Text: " + request.statusText + "\n";
-            if (request.responseJSON != null) {
-                msg += "Message" + request.responseJSON.Message + "\n";
+            console.log(request.responseJSON)
+            if (request.responseText != null) {
+                msg += "Message: " + request.responseText + "\n";
             }
 
             alert(msg);
