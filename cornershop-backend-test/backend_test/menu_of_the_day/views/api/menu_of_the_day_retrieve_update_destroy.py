@@ -32,6 +32,7 @@ class FoodDishSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodDish
         fields = [
+            'id',
             'food',
         ]
 
