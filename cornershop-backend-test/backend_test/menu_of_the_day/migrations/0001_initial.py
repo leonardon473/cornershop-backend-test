@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('food', models.CharField(max_length=140)),
-                ('menu_of_the_day', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='menu_of_the_day.MenuOfTheDay')),
+                ('menu_of_the_day', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='menu_of_the_day.MenuOfTheDay', related_name='food_dishes',)),
             ],
         ),
         migrations.CreateModel(
