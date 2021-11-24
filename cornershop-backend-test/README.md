@@ -67,3 +67,4 @@ make up
 - The id field in the model MenuOfTheDay can be changed by date field
   as PK if you believe it is better.
 - Pagination can be added in the future for menus of the day list.
+- Improve the display of error messages in the menus admin.
