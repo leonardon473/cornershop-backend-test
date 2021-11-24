@@ -1,0 +1,1 @@
+from .menu_of_the_day_list import MenuOfTheDayListApiView

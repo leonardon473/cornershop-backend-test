@@ -24,9 +24,9 @@ if TYPE_CHECKING:
 # -----------------------------------------------------------------------------
 
 
-def menu_of_the_day_admin(request: 'HttpRequest'):
+def menu_of_the_day_list_create(request: 'HttpRequest'):
     # View code here...
-    return render(request, 'menu_of_the_day_admin.html')
+    return render(request, 'menu_of_the_day_list_create.html')
 
 # -----------------------------------------------------------------------------
 # Classes

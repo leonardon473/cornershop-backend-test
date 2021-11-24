@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <title>NORA</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Menús por fecha</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="menuTable" class="table table-bordered table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Crear un nuevo Menú
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>
+                                Fecha del menú
+                            </label>
+                            <input type="text" id="menu_name" class="form-control" />
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="button" id="updateButton" class="btn btn-primary" onclick="addClick();">
+                                    Crear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            menuList();
+        });
+
+        // Get all menus to display
+        function menuList() {
+            // Call Web API to get a list of menus
+            $.ajax({
+                url: '/menu/admin/api/menu',
+                type: 'GET',
+                dataType: 'json',
+                success: function (menus) {
+                    menuListSuccess(menus);
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        // Display all menus returned from Web API call
+        function menuListSuccess(menus) {
+            // Iterate over the collection of data
+            $.each(menus, function (index, menu) {
+                // Add a row to the menu table
+                menuAddRow(menu);
+            });
+        }
+
+        // Add menu row to <table>
+        function menuAddRow(menu) {
+            // First check if a <tbody> tag exists, add one if not
+            if ($("#menuTable tbody").length == 0) {
+                $("#menuTable").append("<tbody></tbody>");
+            }
+
+            // Append row to <table>
+            $("#menuTable tbody").append(
+                menuBuildTableRow(menu));
+        }
+
+        // Build a <tr> for a row of table data
+        function menuBuildTableRow(menu) {
+            var ret = "<tr>" +
+                "<td >" +
+                `<a href=\"./pages/menus_detail.html?menu_id=${menu.id}\">` +
+                menu.date +
+                "</a >" +
+                "</td>" +
+                "</tr>";
+
+            return ret;
+        }
+
+
+        // --------
+        //  Create
+        // --------
+
+        // Handle click event on Add button
+        function addClick() {
+            // Build menu object from inputs
+            Menu = new Object();
+            Menu.name = $("#menu_name").val();
+            Menu.address = $("#menu_address").val();
+            Menu.birthday = $("#menu_birthday").val();
+            menuAdd(Menu);
+        }
+
+        function menuAdd(menu) {
+            var url = `http://localhost:8000/api/menus/`;
+            // console.log(JSON.stringify(menu));
+            // Call Web API to update menu
+            $.ajax({
+                url: url,
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(menu),
+                success: function (menu) {
+                    menuAddRow(menu);
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        // Handle exceptions from AJAX calls
+        function handleException(request, message, error) {
+            var msg = "";
+
+            msg += "Code: " + request.status + "\n";
+            msg += "Text: " + request.statusText + "\n";
+            if (request.responseJSON != null) {
+                msg += "Message" + request.responseJSON.Message + "\n";
+            }
+
+            alert(msg);
+        }
+    </script>
+</body>
+
+</html>

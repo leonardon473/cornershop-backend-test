@@ -1,7 +1,9 @@
 from django.urls import path
 
-from .views import menu_of_the_day_admin
+from .views.admin import menu_of_the_day_list_create
+from .views.api import MenuOfTheDayListApiView
 
 urlpatterns = [
-    path("admin", menu_of_the_day_admin),
+    path("admin", menu_of_the_day_list_create),
+    path("admin/api/menu", MenuOfTheDayListApiView.as_view()),
 ]
