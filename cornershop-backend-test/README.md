@@ -56,9 +56,13 @@ id -u
 
 Edit `.docker/Dockerfile_base` and replace 1337 by your user id.
 
-6- Rebuild the local environment 
+6- Rebuild the local environment
 
 ```
 make rebuild
 make up
 ```
+
+## Comments
+- The id field in the model MenuOfTheDay can be changed by date field
+  as PK if you believe it is better.
