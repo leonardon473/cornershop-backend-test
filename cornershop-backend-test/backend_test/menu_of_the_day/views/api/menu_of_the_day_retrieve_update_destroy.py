@@ -10,6 +10,7 @@ from rest_framework import serializers
 
 # Project libs
 from backend_test.menu_of_the_day.models import FoodDish, MenuOfTheDay
+from backend_test.utils.rest_framework.serializers import UpdatableListModelSerializer
 
 # If type checking, __all__
 if TYPE_CHECKING:
@@ -28,49 +29,11 @@ if TYPE_CHECKING:
 # -----------------------------------------------------------------------------
 
 
-class FoodDishListSerializer(serializers.ListSerializer):
-    """
-    Class created due to update method is not defined by default due to
-    is unclear how to deal with insertions and deletions.
-    """
-
-    def update(self,
-               instance: MenuOfTheDay,
-               validated_data: 'List[Dict[str, Any]]'
-               ) -> 'List[FoodDish]':
-
-        serializer = FoodDishSerializer()
-        # Delete objects not present in validated data
-        FoodDish.objects.exclude(
-            id__in=[i['id'] for i in validated_data if i.get('id')],
-            menu_of_the_day=instance
-        ).delete()
-        food_dishes: 'List[FoodDish]' = []
-        for food_dish_data in validated_data:
-            if food_dish_data.get('id'):
-                food_dish = FoodDish.objects.get(
-                    id=food_dish_data['id'],
-                    menu_of_the_day=instance
-                )
-                serializer.update(  # type: ignore
-                    instance=food_dish,
-                    validated_data=food_dish_data
-                )
-                food_dishes.append(food_dish)
-            else:
-                food_dish_data['menu_of_the_day'] = instance
-                serializer.create(  # type: ignore
-                    validated_data=food_dish_data
-                )
-
-        return food_dishes
-
-
 class FoodDishSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
 
-    class Meta:
-        list_serializer_class = FoodDishListSerializer
+    class Meta:  # type: ignore
+        list_serializer_class = UpdatableListModelSerializer
         model = FoodDish
         fields = [
             'id',
@@ -81,7 +44,7 @@ class FoodDishSerializer(serializers.ModelSerializer):
 class MenuOfTheDayUpdateSerializer(serializers.ModelSerializer):
     food_dishes = FoodDishSerializer(many=True)
 
-    class Meta:
+    class Meta:  # type: ignore
         model = MenuOfTheDay
         fields = [
             'date',
