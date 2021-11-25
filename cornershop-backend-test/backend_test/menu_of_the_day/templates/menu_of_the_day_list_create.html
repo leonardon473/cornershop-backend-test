@@ -2,183 +2,199 @@
 {% block title %} Nora {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>Menús por fecha</h2>
-        </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Menús por fecha</h2>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <table id="menuTable" class="table table-bordered table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="menuTable" class="table table-bordered table-condensed table-striped">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+      </table>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Crear un nuevo Menú
-                </div>
-                <div class="panel-body" id='menu_form'>
-                    <div class="form-group">
-                        <label>
-                            Fecha del menú
-                        </label>
-                        <input type="text" id="menu_date" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Platillos
-                        </label>
-                        <div id="food_dishes">
-                        </div>
-                        <button type="button" class="btn" onclick="addFoodDishInput();">
-                            Añadir campo
-                        </button>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="button" id="updateButton" class="btn btn-primary" onclick="addClick();">
-                                Crear
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Crear un nuevo Menú
+        </div>
+        <div class="panel-body" id='menu_form'>
+          <div class="form-group">
+            <label>
+              Fecha del menú
+            </label>
+            <input type="text" id="menu_date" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>
+              Platillos
+            </label>
+            <div class="container-fluid">
+              <div id="food_dishes">
+
+              </div>
+              <div>
+                <button type="button" class="btn" onclick="addFoodDishInput();">
+                  Añadir campo
+                </button>
+              </div>
             </div>
+          </div>
         </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" id="updateButton" class="btn btn-primary" onclick="addClick();">
+                Crear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
 <script>
-    $(document).ready(function () {
-        menuList();
-        addFoodDishInput();
+  $(document).ready(function () {
+    menuList();
+    addFoodDishInput();
+  });
+
+  // Get all menus to display
+  function menuList() {
+    // Call Web API to get a list of menus
+    $.ajax({
+      url: '/menu/admin/api/menus',
+      type: 'GET',
+      dataType: 'json',
+      success: function (menus) {
+        menuListSuccess(menus);
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
     });
+  }
 
-    // Get all menus to display
-    function menuList() {
-        // Call Web API to get a list of menus
-        $.ajax({
-            url: '/menu/admin/api/menus',
-            type: 'GET',
-            dataType: 'json',
-            success: function (menus) {
-                menuListSuccess(menus);
-            },
-            error: function (request, message, error) {
-                handleException(request, message, error);
-            }
-        });
+  // Display all menus returned from Web API call
+  function menuListSuccess(menus) {
+    // Iterate over the collection of data
+    $.each(menus, function (index, menu) {
+      // Add a row to the menu table
+      menuAddRow(menu);
+    });
+  }
+
+  // Add menu row to <table>
+  function menuAddRow(menu) {
+    // First check if a <tbody> tag exists, add one if not
+    if ($("#menuTable tbody").length == 0) {
+      $("#menuTable").append("<tbody></tbody>");
     }
 
-    // Display all menus returned from Web API call
-    function menuListSuccess(menus) {
-        // Iterate over the collection of data
-        $.each(menus, function (index, menu) {
-            // Add a row to the menu table
-            menuAddRow(menu);
-        });
-    }
+    // Append row to <table>
+    $("#menuTable tbody").append(
+      menuBuildTableRow(menu));
+  }
 
-    // Add menu row to <table>
-    function menuAddRow(menu) {
-        // First check if a <tbody> tag exists, add one if not
-        if ($("#menuTable tbody").length == 0) {
-            $("#menuTable").append("<tbody></tbody>");
+  // Build a <tr> for a row of table data
+  function menuBuildTableRow(menu) {
+    var ret = "<tr>" +
+      "<td >" +
+      `<a href=\"/menu/admin/menus/${menu.id}\">` +
+      menu.date +
+      "</a >" +
+      "</td>" +
+      "</tr>";
+
+    return ret;
+  }
+
+  function clearForm() {
+    var inputs = $("#menu_form").find($("input"));
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].value = ""
+    }
+  }
+
+  // add food dish input
+
+  function addFoodDishInput(value = "", id = "") {
+    var inputForm = `
+		<div class="row food-dish">
+			<div class="col-md-11 form-group">
+			<input type="text" data-id="${id}" class="form-control" value="${value}"/>
+			</div>
+			<div class="col-md-1">
+			<button type="button" id="deleteButton" class="btn btn-danger" onClick="$(this).parents('.food-dish').remove();"
+				style="float: left;">
+				X
+			</button>
+			</div>
+		</div>
+		`;
+    $("#food_dishes").append(inputForm);
+  }
+  // --------
+  //  Create
+  // --------
+
+  // Handle click event on Add button
+  function addClick() {
+    // Build menu object from inputs
+    Menu = new Object();
+    Menu.date = $("#menu_date").val();
+    var inputs = $("#food_dishes").find($("input"));
+    Menu.food_dishes = [];
+    for (var i = 0; i < inputs.length; i++) {
+      Menu.food_dishes.push(
+        {
+          food: inputs[i].value,
         }
+      )
+    }
+    menuAdd(Menu);
+  }
 
-        // Append row to <table>
-        $("#menuTable tbody").append(
-            menuBuildTableRow(menu));
+  function menuAdd(menu) {
+    var url = `/menu/admin/api/menus`;
+    console.log(JSON.stringify(menu));
+    // Call Web API to update menu
+    $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: "application/json;charset=utf-8",
+      data: JSON.stringify(menu),
+      success: function (menu) {
+        clearForm();
+        menuAddRow(menu);
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
+    });
+  }
+
+  // Handle exceptions from AJAX calls
+  function handleException(request, message, error) {
+    var msg = "";
+
+    msg += "Code: " + request.status + "\n";
+    msg += "Text: " + request.statusText + "\n";
+    console.log(request.responseJSON)
+    if (request.responseText != null) {
+      msg += "Message: " + request.responseText + "\n";
     }
 
-    // Build a <tr> for a row of table data
-    function menuBuildTableRow(menu) {
-        var ret = "<tr>" +
-            "<td >" +
-            `<a href=\"/menu/admin/menus/${menu.id}\">` +
-            menu.date +
-            "</a >" +
-            "</td>" +
-            "</tr>";
-
-        return ret;
-    }
-
-    function clearForm() {
-        var inputs = $("#menu_form").find($("input"));
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = ""
-        }
-    }
-
-    // add food dish input
-
-    function addFoodDishInput() {
-        var inputs = $("#food_dishes").find($("input"));
-        var inputForm = `<input type="text" id="food_dish_${inputs.length}" class="form-control" />`;
-        $("#food_dishes").append(inputForm);
-    }
-    // --------
-    //  Create
-    // --------
-
-    // Handle click event on Add button
-    function addClick() {
-        // Build menu object from inputs
-        Menu = new Object();
-        Menu.date = $("#menu_date").val();
-        var inputs = $("#food_dishes").find($("input"));
-        Menu.food_dishes = [];
-        for (var i = 0; i < inputs.length; i++) {
-            Menu.food_dishes.push(
-                {
-                    food: inputs[i].value,
-                }
-            )
-        }
-        menuAdd(Menu);
-    }
-
-    function menuAdd(menu) {
-        var url = `/menu/admin/api/menus`;
-        console.log(JSON.stringify(menu));
-        // Call Web API to update menu
-        $.ajax({
-            url: url,
-            type: 'POST',
-            contentType: "application/json;charset=utf-8",
-            data: JSON.stringify(menu),
-            success: function (menu) {
-                clearForm();
-                menuAddRow(menu);
-            },
-            error: function (request, message, error) {
-                handleException(request, message, error);
-            }
-        });
-    }
-
-    // Handle exceptions from AJAX calls
-    function handleException(request, message, error) {
-        var msg = "";
-
-        msg += "Code: " + request.status + "\n";
-        msg += "Text: " + request.statusText + "\n";
-        console.log(request.responseJSON)
-        if (request.responseText != null) {
-            msg += "Message: " + request.responseText + "\n";
-        }
-
-        alert(msg);
-    }
+    alert(msg);
+  }
 </script>
 {% endblock %}
