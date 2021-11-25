@@ -34,7 +34,7 @@ class FoodDish(models.Model):
         'MenuOfTheDay',
         models.ForeignKey(
             'menu_of_the_day.MenuOfTheDay',
-            on_delete=models.PROTECT,  # type: ignore
+            on_delete=models.CASCADE,  # type: ignore
             related_name='food_dishes',
         )
     )
