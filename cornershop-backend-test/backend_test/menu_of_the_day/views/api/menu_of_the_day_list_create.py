@@ -75,5 +75,5 @@ class MenuOfTheDayListSerializer(serializers.ModelSerializer):
 
 
 class MenuOfTheDayListCreateApiView(ListCreateAPIView):
-    queryset = MenuOfTheDay.objects.all()
+    queryset = MenuOfTheDay.objects.order_by('date')
     serializer_class = MenuOfTheDayCreateSerializer
