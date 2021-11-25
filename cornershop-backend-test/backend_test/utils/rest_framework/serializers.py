@@ -80,6 +80,7 @@ class UpdatableListModelSerializer(serializers.ListSerializer):
         ModelClass = serializer.Meta.model
         relation_field = get_relation_field(ModelClass, instance._meta.model)
         assert relation_field is not None
+
         # Delete objects not present in validated data
         ModelClass.objects.exclude(
             id__in=[i[self.id_key]
