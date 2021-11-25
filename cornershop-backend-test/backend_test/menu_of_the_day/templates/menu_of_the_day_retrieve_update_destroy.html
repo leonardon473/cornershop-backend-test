@@ -213,7 +213,7 @@
       url: `/menu/admin/api/menus/${id}`,
       type: 'DELETE',
       success: function (product) {
-        window.location.replace("../index.html");
+        window.location.replace("/menu/admin/menus");
       },
       error: function (request, message, error) {
         handleException(request, message, error);
