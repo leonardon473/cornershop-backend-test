@@ -42,7 +42,7 @@
               <label>
                 Platillos
               </label>
-              <div id="food_dishes">
+              <div class="container-fluid" id="food_dishes">
               </div>
               <button type="button" class="btn" onclick="addFoodDishInput();">
                 Añadir campo
@@ -76,12 +76,36 @@
     </div>
   </div>
   <script>
-    function getUrlId() {
-      var url = window.location.pathname;
-      return url.substring(url.lastIndexOf('/') + 1);
-    }
 
     $(document).ready(function () {
+      getMenuDetailForUrl();
+    });
+
+    // ----
+    //  UI
+    // ----
+
+    function addFoodDishInput(value = "", id = "") {
+      var inputForm = `
+      <div class="row food-dish">
+        <div class="col-md-11 form-group">
+          <input type="text" data-id="${id}" class="form-control" value="${value}"/>
+        </div>
+        <div class="col-md-1">
+          <button type="button" id="deleteButton" class="btn btn-danger" onClick="$(this).parents('.food-dish').remove();"
+            style="float: left;">
+            X
+          </button>
+        </div>
+      </div>
+      `;
+      $("#food_dishes").append(inputForm);
+    }
+
+    // --------
+    //  Detail
+    // --------
+    function getMenuDetailForUrl() {
       var menu_id = getUrlId();
       console.log(menu_id);
       if (menu_id) {
@@ -90,20 +114,13 @@
       else {
         alert('Param menu_id not found');
       }
-    });
-
-    // ----
-    //  UI
-    // ----
-
-    function addFoodDishInput(value = "", id = "") {
-      var inputForm = `<input type="text" data-id="${id}" class="form-control" value="${value}"/>`;
-      $("#food_dishes").append(inputForm);
     }
 
-    // --------
-    //  Detail
-    // --------
+    function getUrlId() {
+      var url = window.location.pathname;
+      return url.substring(url.lastIndexOf('/') + 1);
+    }
+
     function getMenuDetail(id) {
       // Store menu id in hidden field
       $("#menu_id").val(id);
@@ -124,6 +141,7 @@
 
     function menuToFields(menu) {
       $("#menu_date").val(menu.date);
+      $("#food_dishes").find($(".food-dish")).remove();
       menu.food_dishes.forEach(
         food_dish => addFoodDishInput(
           value = food_dish.food,
@@ -142,6 +160,19 @@
       Menu = new Object();
       Menu.id = $("#menu_id").val();
       Menu.date = $("#menu_date").val();
+      var inputs = $("#food_dishes").find($("input"));
+      Menu.food_dishes = [];
+      for (var i = 0; i < inputs.length; i++) {
+        food_dish = {
+          food: inputs[i].value,
+        }
+        if (inputs[i].dataset.id) {
+          food_dish.id = inputs[i].dataset.id
+        }
+        Menu.food_dishes.push(
+          food_dish
+        )
+      }
       menuUpdate(Menu);
 
     }
@@ -157,6 +188,7 @@
         data: JSON.stringify(menu),
         success: function (menu) {
           menuUpdateSuccess();
+          getMenuDetailForUrl();
         },
         error: function (request, message, error) {
           handleException(request, message, error);
