@@ -1,92 +1,80 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-
-  <!-- Bootstrap JS -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-  <title>NORA</title>
-</head>
-
-<body>
-  <input type="hidden" id="menu_id" value="0" />
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6">
-        <h2>Detalle del Menú del día</h2>
-        <p><a href="/menu/admin/menus">Mostrar todos los menús</a></p>
-      </div>
+{% extends "base.html" %}
+{% block title %} Nora {% endblock %}
+{% block content %}
+<input type="hidden" id="menu_id" value="0" />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Detalle del Menú del día</h2>
+      <p><a href="/menu/admin/menus">Mostrar todos los menús</a></p>
     </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="panel panel-primary">
-          <div class="panel-body">
-            <div class="form-group">
-              <label>
-                Fecha del Menú
-              </label>
-              <input type="text" class="form-control" id="menu_date" />
-            </div>
-            <div class="form-group">
-              <label>
-                Platillos
-              </label>
-              <div class="container-fluid" id="food_dishes">
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <div class="form-group">
+            <label>
+              Fecha del Menú
+            </label>
+            <input type="text" class="form-control" id="menu_date" />
+          </div>
+          <div class="form-group">
+            <label>
+              Platillos
+            </label>
+            <div class="container-fluid">
+              <div id="food_dishes">
+
               </div>
-              <button type="button" class="btn" onclick="addFoodDishInput();">
-                Añadir campo
+              <div>
+                <button type="button" class="btn" onclick="addFoodDishInput();">
+                  Añadir campo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-xs-1">
+              <button type="button" id="updateButton" class="btn btn-primary" onclick="updateClick();">
+                Guardar cambios
+              </button>
+            </div>
+
+            <div class="col-xs-10"></div>
+
+            <div class="col-xs-1">
+              <button type="button" id="deleteButton" class="btn btn-danger" onclick="deleteClick();"
+                style="float: right;">
+                Eliminar Menú
               </button>
             </div>
           </div>
-          <div class="panel-footer">
-            <div class="row">
-              <div class="col-xs-1">
-                <button type="button" id="updateButton" class="btn btn-primary" onclick="updateClick();">
-                  Guardar cambios
-                </button>
-              </div>
-
-              <div class="col-xs-10"></div>
-
-              <div class="col-xs-1">
-                <button type="button" id="deleteButton" class="btn btn-danger" onclick="deleteClick();"
-                  style="float: right;">
-                  Eliminar Menú
-                </button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12" id='alert-div'>
-              </div>
+          <div class="row">
+            <div class="col-xs-12" id='alert-div'>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
 
-    $(document).ready(function () {
-      getMenuDetailForUrl();
-    });
+  $(document).ready(function () {
+    getMenuDetailForUrl();
+  });
 
-    // ----
-    //  UI
-    // ----
+  // ----
+  //  UI
+  // ----
 
-    function addFoodDishInput(value = "", id = "") {
-      var inputForm = `
+  function addFoodDishInput(value = "", id = "") {
+    var inputForm = `
       <div class="row food-dish">
         <div class="col-md-11 form-group">
           <input type="text" data-id="${id}" class="form-control" value="${value}"/>
@@ -99,105 +87,105 @@
         </div>
       </div>
       `;
-      $("#food_dishes").append(inputForm);
-    }
+    $("#food_dishes").append(inputForm);
+  }
 
-    // --------
-    //  Detail
-    // --------
-    function getMenuDetailForUrl() {
-      var menu_id = getUrlId();
-      console.log(menu_id);
-      if (menu_id) {
-        getMenuDetail(menu_id);
+  // --------
+  //  Detail
+  // --------
+  function getMenuDetailForUrl() {
+    var menu_id = getUrlId();
+    console.log(menu_id);
+    if (menu_id) {
+      getMenuDetail(menu_id);
+    }
+    else {
+      alert('Param menu_id not found');
+    }
+  }
+
+  function getUrlId() {
+    var url = window.location.pathname;
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+
+  function getMenuDetail(id) {
+    // Store menu id in hidden field
+    $("#menu_id").val(id);
+
+    // Call Web API to get a Menu
+    $.ajax({
+      url: `/menu/admin/api/menus/${id}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (menu) {
+        menuToFields(menu);
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
       }
-      else {
-        alert('Param menu_id not found');
+    });
+  }
+
+  function menuToFields(menu) {
+    $("#menu_date").val(menu.date);
+    $("#food_dishes").find($(".food-dish")).remove();
+    menu.food_dishes.forEach(
+      food_dish => addFoodDishInput(
+        value = food_dish.food,
+        id = food_dish.id,
+      )
+    );
+  }
+
+  // --------
+  //  Update
+  // --------
+
+  // Handle click event on Update button
+  function updateClick() {
+    // Build menu object from inputs
+    Menu = new Object();
+    Menu.id = $("#menu_id").val();
+    Menu.date = $("#menu_date").val();
+    var inputs = $("#food_dishes").find($("input"));
+    Menu.food_dishes = [];
+    for (var i = 0; i < inputs.length; i++) {
+      food_dish = {
+        food: inputs[i].value,
       }
-    }
-
-    function getUrlId() {
-      var url = window.location.pathname;
-      return url.substring(url.lastIndexOf('/') + 1);
-    }
-
-    function getMenuDetail(id) {
-      // Store menu id in hidden field
-      $("#menu_id").val(id);
-
-      // Call Web API to get a Menu
-      $.ajax({
-        url: `/menu/admin/api/menus/${id}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (menu) {
-          menuToFields(menu);
-        },
-        error: function (request, message, error) {
-          handleException(request, message, error);
-        }
-      });
-    }
-
-    function menuToFields(menu) {
-      $("#menu_date").val(menu.date);
-      $("#food_dishes").find($(".food-dish")).remove();
-      menu.food_dishes.forEach(
-        food_dish => addFoodDishInput(
-          value = food_dish.food,
-          id = food_dish.id,
-        )
-      );
-    }
-
-    // --------
-    //  Update
-    // --------
-
-    // Handle click event on Update button
-    function updateClick() {
-      // Build menu object from inputs
-      Menu = new Object();
-      Menu.id = $("#menu_id").val();
-      Menu.date = $("#menu_date").val();
-      var inputs = $("#food_dishes").find($("input"));
-      Menu.food_dishes = [];
-      for (var i = 0; i < inputs.length; i++) {
-        food_dish = {
-          food: inputs[i].value,
-        }
-        if (inputs[i].dataset.id) {
-          food_dish.id = inputs[i].dataset.id
-        }
-        Menu.food_dishes.push(
-          food_dish
-        )
+      if (inputs[i].dataset.id) {
+        food_dish.id = inputs[i].dataset.id
       }
-      menuUpdate(Menu);
-
+      Menu.food_dishes.push(
+        food_dish
+      )
     }
+    menuUpdate(Menu);
 
-    function menuUpdate(menu) {
-      var url = `/menu/admin/api/menus/${menu.id}`;
-      console.log(JSON.stringify(menu));
-      // Call Web API to update menu
-      $.ajax({
-        url: url,
-        type: 'PATCH',
-        contentType: "application/json;charset=utf-8",
-        data: JSON.stringify(menu),
-        success: function (menu) {
-          menuUpdateSuccess();
-          getMenuDetailForUrl();
-        },
-        error: function (request, message, error) {
-          handleException(request, message, error);
-        }
-      });
-    }
+  }
 
-    function menuUpdateSuccess() {
-      $("#alert-div").append(`
+  function menuUpdate(menu) {
+    var url = `/menu/admin/api/menus/${menu.id}`;
+    console.log(JSON.stringify(menu));
+    // Call Web API to update menu
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      contentType: "application/json;charset=utf-8",
+      data: JSON.stringify(menu),
+      success: function (menu) {
+        menuUpdateSuccess();
+        getMenuDetailForUrl();
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
+    });
+  }
+
+  function menuUpdateSuccess() {
+    $("#alert-div").append(`
         <div class="alert alert-success alert-dismissible fade in" role="alert" style="
           margin-bottom: 0px;
           margin-top: 10px;
@@ -207,47 +195,45 @@
           Update completed.
         </div>
       `);
-    }
+  }
 
-    // --------
-    //  Delete
-    // --------
+  // --------
+  //  Delete
+  // --------
 
-    // Handle click event on Update button
-    function deleteClick() {
-      var id = $("#menu_id").val();
-      menuDelete(id);
-    }
+  // Handle click event on Update button
+  function deleteClick() {
+    var id = $("#menu_id").val();
+    menuDelete(id);
+  }
 
-    function menuDelete(id) {
-      // Call Web API to delete a product
-      $.ajax({
-        url: `/menu/admin/api/menus/${id}`,
-        type: 'DELETE',
-        success: function (product) {
-          window.location.replace("../index.html");
-        },
-        error: function (request, message, error) {
-          handleException(request, message, error);
-        }
-      });
-    }
-
-
-    // Handle exceptions from AJAX calls
-    function handleException(request, message, error) {
-      var msg = "";
-
-      msg += "Code: " + request.status + "\n";
-      msg += "Text: " + request.statusText + "\n";
-      console.log(request.responseJSON)
-      if (request.responseText != null) {
-        msg += "Message: " + request.responseText + "\n";
+  function menuDelete(id) {
+    // Call Web API to delete a product
+    $.ajax({
+      url: `/menu/admin/api/menus/${id}`,
+      type: 'DELETE',
+      success: function (product) {
+        window.location.replace("../index.html");
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
       }
+    });
+  }
 
-      alert(msg);
+
+  // Handle exceptions from AJAX calls
+  function handleException(request, message, error) {
+    var msg = "";
+
+    msg += "Code: " + request.status + "\n";
+    msg += "Text: " + request.statusText + "\n";
+    console.log(request.responseJSON)
+    if (request.responseText != null) {
+      msg += "Message: " + request.responseText + "\n";
     }
-  </script>
-</body>
 
-</html>
+    alert(msg);
+  }
+</script>
+{% endblock %}
