@@ -53,13 +53,14 @@ class MenuOfTheDayUpdateSerializer(serializers.ModelSerializer):
 
     def update(self, instance: "MenuOfTheDay", validated_data: "Dict[str, Any]"):
 
-        food_dishes: "List[Dict[str, Any]]" = validated_data.pop("food_dishes")
+        food_dishes: "List[Dict[str, Any]]" = validated_data.pop("food_dishes", None)
 
         instance = super().update(instance, validated_data)  # type: ignore
 
-        self.fields["food_dishes"].update(  # type: ignore
-            instance=instance, validated_data=food_dishes
-        )
+        if food_dishes:
+            self.fields["food_dishes"].update(  # type: ignore
+                instance=instance, validated_data=food_dishes
+            )
 
         return instance
 
