@@ -13,6 +13,7 @@ from backend_test.utils.django.db.models.relation import get_relation_field
 # If type checking, __all__
 if TYPE_CHECKING:
     from typing import Any, Dict, List
+
     from django.db.models import Model
 
 # -----------------------------------------------------------------------------
@@ -69,12 +70,12 @@ class UpdatableListModelSerializer(serializers.ListSerializer):
     payload. The food dish with id 19 will be updated and the food dish
     Pastor Tacos will be created due to it don't include a id key.
     """
-    id_key = 'id'
 
-    def update(self,
-               instance: 'Model',
-               validated_data: 'List[Dict[str, Any]]'
-               ) -> 'List[Model]':
+    id_key = "id"
+
+    def update(
+        self, instance: "Model", validated_data: "List[Dict[str, Any]]"
+    ) -> "List[Model]":
 
         serializer: serializers.ModelSerializer = self.child  # type: ignore
         ModelClass = serializer.Meta.model
@@ -83,30 +84,23 @@ class UpdatableListModelSerializer(serializers.ListSerializer):
 
         # Delete objects not present in validated data
         ModelClass.objects.exclude(
-            id__in=[i[self.id_key]
-                    for i in validated_data if i.get(self.id_key)],
-            menu_of_the_day=instance
+            id__in=[i[self.id_key] for i in validated_data if i.get(self.id_key)],
+            menu_of_the_day=instance,
         ).delete()
 
-        updated_or_created_objects: 'List[Model]' = []
+        updated_or_created_objects: "List[Model]" = []
         for data in validated_data:
             # Update objs with id key
             if data.get(self.id_key):
                 obj = ModelClass.objects.get(
-                    id=data[self.id_key],
-                    menu_of_the_day=instance
+                    id=data[self.id_key], menu_of_the_day=instance
                 )
-                serializer.update(  # type: ignore
-                    instance=obj,
-                    validated_data=data
-                )
+                serializer.update(instance=obj, validated_data=data)  # type: ignore
                 updated_or_created_objects.append(obj)
             # Create objs without id key
             else:
                 data[relation_field.name] = instance
-                obj = serializer.create(  # type: ignore
-                    validated_data=data
-                )
+                obj = serializer.create(validated_data=data)  # type: ignore
                 updated_or_created_objects.append(obj)
 
         return updated_or_created_objects
