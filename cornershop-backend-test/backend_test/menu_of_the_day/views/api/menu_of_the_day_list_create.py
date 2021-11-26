@@ -5,8 +5,8 @@
 from typing import TYPE_CHECKING
 
 # Third party libs
-from rest_framework.generics import ListCreateAPIView
 from rest_framework import serializers
+from rest_framework.generics import ListCreateAPIView
 
 # Project libs
 from backend_test.menu_of_the_day.models import FoodDish, MenuOfTheDay

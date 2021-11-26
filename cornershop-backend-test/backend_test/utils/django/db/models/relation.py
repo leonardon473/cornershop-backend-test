@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 # If type checking, __all__
 if TYPE_CHECKING:
     from typing import Optional
+
     from django.db.models import Model
     from django.db.models.fields import Field
 

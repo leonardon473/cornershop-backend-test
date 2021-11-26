@@ -2,8 +2,8 @@
 # Libraries
 # -----------------------------------------------------------------------------
 # Core libs
-from typing import TYPE_CHECKING, cast
 import uuid
+from typing import TYPE_CHECKING, cast
 
 # Third party libs
 from django.db import models
