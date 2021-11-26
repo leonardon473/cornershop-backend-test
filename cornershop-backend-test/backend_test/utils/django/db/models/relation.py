@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 # -----------------------------------------------------------------------------
 
 
-def get_relation_field(model_from: 'Model', model_to: 'Model') -> 'Optional[Field]':
+def get_relation_field(model_from: "Model", model_to: "Model") -> "Optional[Field]":
     """
     Func for find relation field between two models.
     """

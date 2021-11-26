@@ -31,15 +31,12 @@ if TYPE_CHECKING:
 
 class FoodDish(models.Model):
     menu_of_the_day = cast(
-        'MenuOfTheDay',
+        "MenuOfTheDay",
         models.ForeignKey(
-            'menu_of_the_day.MenuOfTheDay',
+            "menu_of_the_day.MenuOfTheDay",
             on_delete=models.CASCADE,  # type: ignore
-            related_name='food_dishes',
-        )
+            related_name="food_dishes",
+        ),
     )
 
-    food = cast(
-        str,
-        models.CharField(max_length=140)
-    )
+    food = cast(str, models.CharField(max_length=140))

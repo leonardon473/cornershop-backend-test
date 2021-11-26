@@ -34,29 +34,29 @@ if TYPE_CHECKING:
 
 class EmployeeMenuSelection(models.Model):
     id = cast(
-        'uuid.UUID',
-        models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+        "uuid.UUID",
+        models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False),
     )
     employee = cast(
-        'Employee',
+        "Employee",
         models.ForeignKey(
-            'menu_of_the_day.Employee',
+            "menu_of_the_day.Employee",
             on_delete=models.PROTECT,  # type: ignore
-        )
+        ),
     )
 
     food_dish = cast(
-        'FoodDish',
+        "FoodDish",
         models.ForeignKey(
-            'menu_of_the_day.FoodDish',
+            "menu_of_the_day.FoodDish",
             on_delete=models.PROTECT,  # type: ignore
-        )
+        ),
     )
 
     menu_of_the_day = cast(
-        'MenuOfTheDay',
+        "MenuOfTheDay",
         models.ForeignKey(
-            'menu_of_the_day.MenuOfTheDay',
+            "menu_of_the_day.MenuOfTheDay",
             on_delete=models.PROTECT,  # type: ignore
-        )
+        ),
     )

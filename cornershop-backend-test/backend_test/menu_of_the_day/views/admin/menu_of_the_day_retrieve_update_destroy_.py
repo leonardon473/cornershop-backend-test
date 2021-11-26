@@ -24,9 +24,10 @@ if TYPE_CHECKING:
 # -----------------------------------------------------------------------------
 
 
-def menu_of_the_day_retrieve_update_destroy(request: 'HttpRequest', id: int):
+def menu_of_the_day_retrieve_update_destroy(request: "HttpRequest", id: int):
     # View code here...
-    return render(request, 'menu_of_the_day_retrieve_update_destroy.html')
+    return render(request, "menu_of_the_day_retrieve_update_destroy.html")
+
 
 # -----------------------------------------------------------------------------
 # Classes

@@ -19,5 +19,5 @@ from .utils.healthz import healthz
 
 urlpatterns = [
     path("healthz", healthz, name="healthz"),
-    path('menu/', include('backend_test.menu_of_the_day.urls')),
+    path("menu/", include("backend_test.menu_of_the_day.urls")),
 ]

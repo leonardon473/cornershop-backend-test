@@ -32,7 +32,7 @@ class FoodDishSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodDish
         fields = [
-            'food',
+            "food",
         ]
 
 
@@ -42,13 +42,13 @@ class MenuOfTheDayCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuOfTheDay
         fields = [
-            'date',
-            'food_dishes',
+            "date",
+            "food_dishes",
         ]
 
-    def create(self, validated_data: 'Dict[str, Any]'):
+    def create(self, validated_data: "Dict[str, Any]"):
 
-        food_dishes: 'List[Dict[str, Any]]' = validated_data.pop('food_dishes')
+        food_dishes: "List[Dict[str, Any]]" = validated_data.pop("food_dishes")
 
         instance: MenuOfTheDay = super().create(validated_data)
 
@@ -56,7 +56,6 @@ class MenuOfTheDayCreateSerializer(serializers.ModelSerializer):
             FoodDish.objects.create(
                 menu_of_the_day=instance,
                 **food_dish,
-
             )
 
         return instance
@@ -69,11 +68,11 @@ class MenuOfTheDayListSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuOfTheDay
         fields = [
-            'id',
-            'date',
+            "id",
+            "date",
         ]
 
 
 class MenuOfTheDayListCreateApiView(ListCreateAPIView):
-    queryset = MenuOfTheDay.objects.order_by('date')
+    queryset = MenuOfTheDay.objects.order_by("date")
     serializer_class = MenuOfTheDayCreateSerializer
