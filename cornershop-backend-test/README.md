@@ -69,3 +69,4 @@ make up
 - Pagination can be added in the future for menus of the day list.
 - Improve the display of error messages in the menus admin.
 - Disable menu selection changes can be implemented.
+- Pytest fixtures aren't used to have type hint in the tests.
