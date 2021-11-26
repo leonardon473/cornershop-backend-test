@@ -89,6 +89,8 @@ class Migration(migrations.Migration):
                 (
                     "food_dish",
                     models.ForeignKey(
+                        blank=True,
+                        null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         to="menu_of_the_day.FoodDish",
                     ),

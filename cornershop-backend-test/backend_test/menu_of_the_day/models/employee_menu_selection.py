@@ -49,6 +49,8 @@ class EmployeeMenuSelection(models.Model):
         "FoodDish",
         models.ForeignKey(
             "menu_of_the_day.FoodDish",
+            blank=True,
+            null=True,
             on_delete=models.PROTECT,  # type: ignore
         ),
     )
