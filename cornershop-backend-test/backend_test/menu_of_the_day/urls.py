@@ -6,7 +6,7 @@ from .views.api import (
     MenuOfTheDayRetrieveUpdateDestroyView,
 )
 from .views.html import (
-    employee_menu_selection_retrieve_update,
+    employee_menu_selection_retrieve_update_view,
     menu_of_the_day_list_create,
     menu_of_the_day_retrieve_update_destroy,
 )
@@ -14,7 +14,7 @@ from .views.html import (
 urlpatterns = [
     path(
         "<uuid:id>",
-        employee_menu_selection_retrieve_update,
+        employee_menu_selection_retrieve_update_view,
     ),
     path("admin/menus", menu_of_the_day_list_create),
     path("admin/menus/<int:id>", menu_of_the_day_retrieve_update_destroy),
