@@ -30,6 +30,8 @@ if TYPE_CHECKING:
 
 
 class FoodDish(models.Model):
+    id: int
+
     menu_of_the_day = cast(
         "MenuOfTheDay",
         models.ForeignKey(

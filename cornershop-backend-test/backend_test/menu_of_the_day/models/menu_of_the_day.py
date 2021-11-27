@@ -30,4 +30,6 @@ if TYPE_CHECKING:
 
 
 class MenuOfTheDay(models.Model):
+    id: int
+
     date = cast("datetime.date", models.DateField(unique=True))

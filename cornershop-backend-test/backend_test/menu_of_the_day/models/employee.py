@@ -30,5 +30,6 @@ if TYPE_CHECKING:
 
 
 class Employee(models.Model):
+    id: int
     name = cast(str, models.CharField(max_length=140))
     slack_id = cast(str, models.CharField(max_length=20))
