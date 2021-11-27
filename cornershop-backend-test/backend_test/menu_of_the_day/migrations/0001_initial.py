@@ -87,7 +87,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "food_dish",
+                    "selected_food_dish",
                     models.ForeignKey(
                         blank=True,
                         null=True,

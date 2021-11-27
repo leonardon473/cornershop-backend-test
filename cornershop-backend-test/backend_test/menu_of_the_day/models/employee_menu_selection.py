@@ -45,7 +45,7 @@ class EmployeeMenuSelection(models.Model):
         ),
     )
 
-    food_dish = cast(
+    selected_food_dish = cast(
         "FoodDish",
         models.ForeignKey(
             "menu_of_the_day.FoodDish",
