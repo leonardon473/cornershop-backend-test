@@ -1,13 +1,13 @@
 from django.urls import path
 
-from .views.admin import (
-    menu_of_the_day_list_create,
-    menu_of_the_day_retrieve_update_destroy,
-)
 from .views.api import (
     EmployeeMenuSelectionRetrieveUpdateView,
     MenuOfTheDayListCreateApiView,
     MenuOfTheDayRetrieveUpdateDestroyView,
+)
+from .views.html import (
+    menu_of_the_day_list_create,
+    menu_of_the_day_retrieve_update_destroy,
 )
 
 urlpatterns = [
