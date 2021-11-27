@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %} Nora {% endblock %}
+{% block content %}
+<input type="hidden" id="menu_id" value="0" />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Hola <b id="menu_name"></b></h2>
+      <h2>Este es el menú del día <b id="menu_date"></b></h2>
+      <h2>Selecciona el platillo de tu preferencia</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <div class="form-group">
+            <label>
+              Platillos
+            </label>
+            <div class="container-fluid">
+              <div id="food_dishes">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-xs-12" id='alert-div'>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+
+  $(document).ready(function () {
+    getMenuDetailForUrl();
+  });
+
+  // ----
+  //  UI
+  // ----
+
+  function addFoodDishRadioButton(value = "", id = "") {
+    var radioButton = `
+      <div class="row food-dish">
+        <div class="col-md-12 form-group">
+          <div class="radio">
+            <label>
+              <input name="food-dishes"
+                     onClick="updateClick('${id}');"
+                     type="radio"
+                     value="${id}">
+              ${value}
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+    $("#food_dishes").append(radioButton);
+  }
+
+  // --------
+  //  Detail
+  // --------
+  function getMenuDetailForUrl() {
+    var menu_id = getUrlId();
+    console.log(menu_id);
+    if (menu_id) {
+      getMenuDetail(menu_id);
+    }
+    else {
+      alert('Param menu_id not found');
+    }
+  }
+
+  function getUrlId() {
+    var url = window.location.pathname;
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+
+  function getMenuDetail(id) {
+    // Store menu id in hidden field
+    $("#menu_id").val(id);
+
+    // Call Web API to get a Menu
+    $.ajax({
+      url: `/menu/api/employee-menu-selections/${id}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (menu) {
+        menuToFields(menu);
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
+    });
+  }
+
+  function menuToFields(menu) {
+    $("#menu_name").text(menu.employee.name);
+    $("#menu_date").text(menu.menu_of_the_day.date);
+    $("#food_dishes").find($(".food-dish")).remove();
+    menu.menu_of_the_day.food_dishes.forEach(
+      food_dish => addFoodDishRadioButton(
+        value = food_dish.food,
+        id = food_dish.id,
+      )
+    );
+    if (menu.selected_food_dish_id) {
+      $("#food_dishes")
+        .find($(`input[value='${menu.selected_food_dish_id}']`))
+      [0].checked = true;
+    }
+    ;
+
+  }
+
+  // --------
+  //  Update
+  // --------
+
+  // Handle click event on Update button
+  function updateClick(id) {
+    // Build menu object from inputs
+    MenuSelection = new Object();
+    MenuSelection.id = $("#menu_id").val();
+    MenuSelection.selected_food_dish = id;
+    menuUpdate(MenuSelection);
+  }
+
+  function menuUpdate(menu_selection) {
+    var url = `/menu/api/employee-menu-selections/${menu_selection.id}`;
+    console.log(JSON.stringify(menu_selection));
+    // Call Web API to update menu
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      contentType: "application/json;charset=utf-8",
+      data: JSON.stringify(menu_selection),
+      success: function (menu_selection) {
+        menuUpdateSuccess();
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
+    });
+  }
+
+  function menuUpdateSuccess() {
+    $("#alert-div").append(`
+      <div class="alert alert-success alert-dismissible fade in" role="alert" style="
+        margin-bottom: 0px;
+        margin-top: 10px;
+        ">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        Selección enviada.
+      </div>
+    `);
+  }
+
+
+  // Handle exceptions from AJAX calls
+  function handleException(request, message, error) {
+    var msg = "";
+
+    msg += "Code: " + request.status + "\n";
+    msg += "Text: " + request.statusText + "\n";
+    console.log(request.responseJSON)
+    if (request.responseText != null) {
+      msg += "Message: " + request.responseText + "\n";
+    }
+
+    alert(msg);
+  }
+</script>
+{% endblock %}
