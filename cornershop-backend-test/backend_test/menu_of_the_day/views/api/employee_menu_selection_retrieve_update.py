@@ -38,7 +38,7 @@ class EmployeeMenuSelectionUpdateSerializer(serializers.ModelSerializer):
     class Meta:  # type: ignore
         model = EmployeeMenuSelection
         fields = [
-            "food_dish",
+            "selected_food_dish",
         ]
 
     def to_representation(self, instance: EmployeeMenuSelection) -> "Dict[str, Any]":
@@ -55,6 +55,7 @@ class EmployeeMenuSelectionUpdateSerializer(serializers.ModelSerializer):
 
 
 class FoodDishSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     food = serializers.CharField()
 
 
@@ -80,6 +81,7 @@ class MenuOfTheDaySerializer(serializers.Serializer):
 class EmployeeMenuSelectionRetrieveSerializer(serializers.Serializer):
     id = serializers.CharField
     employee = EmployeeSerializer()
+    selected_food_dish_id = serializers.IntegerField()
     menu_of_the_day = MenuOfTheDaySerializer()
 
 
