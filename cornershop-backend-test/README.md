@@ -70,3 +70,5 @@ make up
 - Improve the display of error messages in the menus admin.
 - Disable menu selection changes can be implemented.
 - Pytest fixtures aren't used to have type hint in the tests.
+- The admin use is_staff User field to allow menus changes, this can be
+  changed to use django table "auth_group_permissions".
