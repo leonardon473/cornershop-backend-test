@@ -5,6 +5,7 @@ from .views.admin import (
     menu_of_the_day_retrieve_update_destroy,
 )
 from .views.api import (
+    EmployeeMenuSelectionRetrieveUpdateView,
     MenuOfTheDayListCreateApiView,
     MenuOfTheDayRetrieveUpdateDestroyView,
 )
@@ -14,4 +15,8 @@ urlpatterns = [
     path("admin/menus/<int:id>", menu_of_the_day_retrieve_update_destroy),
     path("admin/api/menus", MenuOfTheDayListCreateApiView.as_view()),
     path("admin/api/menus/<int:pk>", MenuOfTheDayRetrieveUpdateDestroyView.as_view()),
+    path(
+        "api/employee-menu-selections/<uuid:pk>",
+        EmployeeMenuSelectionRetrieveUpdateView.as_view(),
+    ),
 ]
