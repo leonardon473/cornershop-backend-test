@@ -11,8 +11,6 @@ from rest_framework.generics import RetrieveUpdateAPIView
 # Project libs
 from backend_test.menu_of_the_day.models import (
     EmployeeMenuSelection,
-    FoodDish,
-    MenuOfTheDay,
 )
 
 # If type checking, __all__
