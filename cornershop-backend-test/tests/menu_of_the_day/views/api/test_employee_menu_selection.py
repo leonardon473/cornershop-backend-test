@@ -30,8 +30,9 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
             "employee": {"name": self.selection.employee.name},
             "menu_of_the_day": {
                 "date": self.selection.menu_of_the_day.date.strftime("%Y-%m-%d"),
-                "food_dishes": [{"food": self.food_dish.food}],
+                "food_dishes": [{"food": self.food_dish.food, "id": self.food_dish.id}],
             },
+            "selected_food_dish_id": self.selection.selected_food_dish_id,
         }
 
         url = f"{self.endpoint}/{self.selection.id}"
@@ -49,7 +50,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
     def test_update(self):
         # Arrange
-        update_dict = {"food_dish": self.food_dish.id}
+        update_dict = {"selected_food_dish": self.food_dish.id}
         url = f"{self.endpoint}/{self.selection.id}"
 
         # Act
@@ -59,7 +60,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         self.selection.refresh_from_db()
         # remove field with unpredictable value
         assert response.status_code == 200
-        assert self.selection.food_dish.id == self.food_dish.id
+        assert self.selection.selected_food_dish.id == self.food_dish.id
 
     @pytest.mark.parametrize(
         "field",
