@@ -77,3 +77,4 @@ to see correctly the menu link in slack.
 - The admin use is_staff User field to allow menus changes, this can be
   changed to use django table "auth_group_permissions".
 - The function to get slack can be improved by use pagination.
+- Composed keys can be used to improve DB design.
