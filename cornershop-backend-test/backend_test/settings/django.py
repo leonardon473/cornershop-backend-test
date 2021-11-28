@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-from .envtools import getenv
+from ..envtools import getenv
 
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration
