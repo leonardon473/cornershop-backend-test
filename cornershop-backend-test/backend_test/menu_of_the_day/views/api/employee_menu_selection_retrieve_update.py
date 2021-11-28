@@ -9,9 +9,7 @@ from rest_framework import serializers
 from rest_framework.generics import RetrieveUpdateAPIView
 
 # Project libs
-from backend_test.menu_of_the_day.models import (
-    EmployeeMenuSelection,
-)
+from backend_test.menu_of_the_day.models import EmployeeMenuSelection
 
 # If type checking, __all__
 if TYPE_CHECKING:
