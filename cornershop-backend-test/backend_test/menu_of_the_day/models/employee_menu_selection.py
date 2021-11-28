@@ -15,6 +15,8 @@ from django.db import models
 
 # If type checking, __all__
 if TYPE_CHECKING:
+    from typing import Optional
+
     from backend_test.menu_of_the_day.models.employee import Employee
     from backend_test.menu_of_the_day.models.food_dish import FoodDish
     from backend_test.menu_of_the_day.models.menu_of_the_day import MenuOfTheDay
@@ -45,6 +47,7 @@ class EmployeeMenuSelection(models.Model):
         ),
     )
 
+    selected_food_dish_id: "Optional[int]"
     selected_food_dish = cast(
         "FoodDish",
         models.ForeignKey(
