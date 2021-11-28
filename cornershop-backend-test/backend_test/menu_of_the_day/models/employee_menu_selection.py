@@ -58,6 +58,14 @@ class EmployeeMenuSelection(models.Model):
         ),
     )
 
+    food_dish_customization = cast(
+        str,
+        models.CharField(
+            blank=True,
+            max_length=120,
+        ),
+    )
+
     menu_of_the_day = cast(
         "MenuOfTheDay",
         models.ForeignKey(
@@ -67,3 +75,9 @@ class EmployeeMenuSelection(models.Model):
     )
 
     objects: "models.Manager[EmployeeMenuSelection]"
+
+    class Meta:
+        unique_together = (
+            "employee",
+            "menu_of_the_day",
+        )
