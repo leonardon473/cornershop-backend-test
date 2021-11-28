@@ -67,6 +67,10 @@ make up
 When set the variable BACKEND_HOST start the host with http:// o https://
 to see correctly the menu link in slack.
 
+## Concerts
+- The time zone used in this project is Chile/Continental that is equal to
+  UTC-4 but in summer UTC-3 is in use.
+
 ## Possible improvements
 - The id field in the model MenuOfTheDay can be changed by date field
   as PK if you believe it is better.
