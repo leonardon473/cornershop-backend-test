@@ -72,3 +72,4 @@ make up
 - Pytest fixtures aren't used to have type hint in the tests.
 - The admin use is_staff User field to allow menus changes, this can be
   changed to use django table "auth_group_permissions".
+- The function to get slack can be improved by use pagination.
