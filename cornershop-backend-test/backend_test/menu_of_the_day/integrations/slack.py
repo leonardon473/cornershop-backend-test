@@ -13,7 +13,7 @@ from slack_sdk import WebClient
 
 # If type checking, __all__
 if TYPE_CHECKING:
-    from typing import Any, Dict
+    from typing import Any, Dict, List
 
 # -----------------------------------------------------------------------------
 # Constants
@@ -30,7 +30,7 @@ client = WebClient(token=settings.SLACK_BOT_TOKEN)
 # -----------------------------------------------------------------------------
 
 
-def get_all_members_data_in_the_workspace() -> "Dict[str, Any]":
+def get_all_members_data_in_the_workspace() -> "List[Dict[str, Any]]":
     result = client.users_list()
 
     return [
