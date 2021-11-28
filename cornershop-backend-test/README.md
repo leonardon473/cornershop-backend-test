@@ -78,3 +78,4 @@ to see correctly the menu link in slack.
   changed to use django table "auth_group_permissions".
 - The function to get slack can be improved by use pagination.
 - Composed keys can be used to improve DB design.
+- Limit time to order a food dish should be edited from the db.
