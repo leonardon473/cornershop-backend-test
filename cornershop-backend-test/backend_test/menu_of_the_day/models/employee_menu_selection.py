@@ -65,3 +65,5 @@ class EmployeeMenuSelection(models.Model):
             on_delete=models.PROTECT,  # type: ignore
         ),
     )
+
+    objects: "models.Manager[EmployeeMenuSelection]"
