@@ -34,9 +34,9 @@ def get_all_members_data_in_the_workspace() -> "List[Dict[str, Any]]":
     result = client.users_list()
 
     return [
-        {"id": m["id"], "name": m["real_name"]}
-        for m in result.data["members"]
-        if ["is_email_confirmed"]
+        {"id": i["id"], "name": i["real_name"]}
+        for i in result.data["members"]
+        if i["is_email_confirmed"]
     ]
 
 
