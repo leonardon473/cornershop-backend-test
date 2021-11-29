@@ -71,6 +71,50 @@ to see correctly the menu link in slack.
 - The time zone used in this project is Chile/Continental that is equal to
   UTC-4 but in summer UTC-3 is in use.
 
+## Architecture
+![Architecture diagram](assets/architecture-diagram.png)
+
+Services:
+
+Services interacts with models and
+handles business logic for the domain.
+It depends on Models if it has to
+communicate with a datastore and
+Integrations if it has to talk to another
+domain.
+
+Models:
+
+Models stores the representation of
+data in a datastore. It depends on a
+datastore being present.
+
+Integrations:
+
+This domain consumes other domains
+through interfaces. Services depends
+on Integrations to communication to other
+domains.
+
+Views:
+
+Originally, Views publishes the service functionality
+for other domains to consume. It
+depends on Services so it can publish
+functionality. But in this case for speed development
+Views depends Models. I suggest to use Models directly
+for CRUD operations and Services for advance operations.
+Nora admin, user interface and the rest api are located here.
+
+Async tasks:
+
+The async tasks are responsible to execute the
+Services at the right time and in the correct
+order.
+
+Based on [Django domains](https://phalt.github.io/django-api-domains/).
+Some concept names has been changed.
+
 ## Possible improvements
 - The id field in the model MenuOfTheDay can be changed by date field
   as PK if you believe it is better.
@@ -86,3 +130,5 @@ to see correctly the menu link in slack.
 - Error management in send_menu_of_the_day_to_employees can be improved.
 - A flag of sent can be added to EmployeeMenuSelection.
 - Celery beat database should be changed to Django db instead of the file db.
+- Services and Integration should be have a abstraction or interface to be easy
+  to be changed.
