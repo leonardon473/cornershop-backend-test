@@ -81,7 +81,7 @@ to see correctly the menu link in slack.
 ## Architecture
 ![Architecture diagram](assets/architecture-diagram.png)
 
-Services:
+### Services:
 
 Services interacts with models and
 handles business logic for the domain.
@@ -90,20 +90,20 @@ communicate with a datastore and
 Integrations if it has to talk to another
 domain.
 
-Models:
+### Models:
 
 Models stores the representation of
 data in a datastore. It depends on a
 datastore being present.
 
-Integrations:
+### Integrations:
 
 This domain consumes other domains
 through interfaces. Services depends
 on Integrations to communication to other
 domains.
 
-Views:
+### Views:
 
 Originally, Views publishes the service functionality
 for other domains to consume. It
@@ -113,7 +113,7 @@ Views depends Models. I suggest to use Models directly
 for CRUD operations and Services for advance operations.
 Nora admin, user interface and the rest api are located here.
 
-Async tasks:
+### Async tasks:
 
 The async tasks are responsible to execute the
 Services at the right time and in the correct
