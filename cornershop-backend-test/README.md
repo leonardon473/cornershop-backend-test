@@ -145,6 +145,7 @@ Some concept names has been changed.
   to be changed.
 - The func send_message_to_slack_user can be run async in multiple workers to
   improve send_menu_of_the_day_to_employees speed execution.
+- The class UpdatableListModelSerializer should be have unit test.
 
 ## Bibliography
 
