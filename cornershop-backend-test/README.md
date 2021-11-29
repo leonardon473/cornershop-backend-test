@@ -77,6 +77,8 @@ to see correctly the menu link in slack.
   Format "HH:MM".
 - `TIME_TO_SEND_MENU` Time when the menu of the day is sent to employees.
   Format "HH:MM".
+- `SLACK_BOT_TOKEN` It is a Bot User OAuth Token with scopes chat:write and
+  users:read.
 
 ## Concerts
 - The time zone used in this project is Chile/Continental that is equal to
