@@ -42,9 +42,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
         # Assert
         data = response.json()
-        from pprint import pprint
 
-        pprint(data)
         assert response.status_code == 200
         assert data == expected_json
 
@@ -61,21 +59,3 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         # remove field with unpredictable value
         assert response.status_code == 200
         assert self.selection.selected_food_dish.id == self.food_dish.id
-
-    @pytest.mark.parametrize(
-        "field",
-        [
-            ("food_dish"),
-        ],
-    )
-    def test_partial_update(self, field: str):
-        # Arrange
-        update_dict = {"food_dish": self.food_dish.id}
-        valid_field = update_dict[field]
-        url = f"{self.endpoint}/{self.selection.id}"
-
-        # Act
-        response = self.api_client.patch(url, {field: valid_field}, format="json")
-
-        # Assert
-        assert response.status_code == 200
