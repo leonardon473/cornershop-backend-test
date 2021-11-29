@@ -1,8 +1,10 @@
+from datetime import date, time
 from typing import cast
 
 import pytest
 from rest_framework.test import APIClient
-
+from freezegun import freeze_time
+from django.test import override_settings
 from model_bakery import baker
 
 from backend_test.menu_of_the_day.models import EmployeeMenuSelection, FoodDish
@@ -16,7 +18,13 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
     def setup_method(self, method):
         self.api_client = APIClient()
-        self.selection = cast(EmployeeMenuSelection, baker.make(EmployeeMenuSelection))
+        self.selection = cast(
+            EmployeeMenuSelection,
+            baker.make(
+                EmployeeMenuSelection,
+                menu_of_the_day__date=date(2021, 11, 24),
+            ),
+        )
         self.food_dish = cast(
             FoodDish,
             baker.make(
@@ -47,6 +55,8 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         assert response.status_code == 200
         assert data == expected_json
 
+    @freeze_time("2021-11-24 09:00 -04:00")
+    @override_settings(TIME_LIMIT_TO_ORDER=time(11, 0))
     def test_update(self):
         # Arrange
         update_dict = {
@@ -60,6 +70,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
         # Assert
         self.selection.refresh_from_db()
+
         assert response.status_code == 200
         assert self.selection.selected_food_dish.id == self.food_dish.id
         assert self.selection.food_dish_customization == "Without salt"
