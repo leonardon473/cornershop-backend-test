@@ -75,3 +75,20 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         assert response.status_code == 200
         assert self.selection.selected_food_dish.id == self.food_dish.id
         assert self.selection.food_dish_customization == "Without salt"
+
+    @freeze_time("2021-11-24 11:01 -03:00")
+    @override_settings(TIME_LIMIT_TO_ORDER=time(11, 0))
+    def test_update_fail(self):
+        # Arrange
+        update_dict = {
+            "selected_food_dish": self.food_dish.id,
+            "food_dish_customization": "Without salt",
+        }
+        url = f"{self.endpoint}/{self.selection.id}"
+
+        # Act
+        response = self.api_client.put(url, update_dict, format="json")
+
+        # Assert
+
+        assert response.status_code == 400
