@@ -24,8 +24,23 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <label>
+              Instrucciones especiales: (Ej. Sin jitomate la ensalada)
+            </label>
+            <input type="text" id="food_dish_customization" class="form-control" />
+          </div>
         </div>
         <div class="panel-footer">
+          <div class="row">
+            <div class="col-xs-1">
+              <button type="button" id="updateButton" class="btn btn-primary" onclick="updateClick();">
+                Guardar cambios
+              </button>
+            </div>
+
+            <div class="col-xs-11"></div>
+          </div>
           <div class="row">
             <div class="col-xs-12" id='alert-div'>
             </div>
@@ -54,7 +69,6 @@
           <div class="radio">
             <label>
               <input name="food-dishes"
-                     onClick="updateClick('${id}');"
                      type="radio"
                      value="${id}">
               ${value}
@@ -106,6 +120,7 @@
   function menuToFields(menu) {
     $("#menu_name").text(menu.employee.name);
     $("#menu_date").text(menu.menu_of_the_day.date);
+    $("#food_dish_customization").val(menu.food_dish_customization);
     $("#food_dishes").find($(".food-dish")).remove();
     menu.menu_of_the_day.food_dishes.forEach(
       food_dish => addFoodDishRadioButton(
@@ -119,7 +134,6 @@
       [0].checked = true;
     }
     ;
-
   }
 
   // --------
@@ -127,11 +141,13 @@
   // --------
 
   // Handle click event on Update button
-  function updateClick(id) {
+  function updateClick() {
     // Build menu object from inputs
     MenuSelection = new Object();
     MenuSelection.id = $("#menu_id").val();
-    MenuSelection.selected_food_dish = id;
+    selected_food_dish_input = $("#food_dishes").find($(`input:checked`))[0];
+    MenuSelection.selected_food_dish = selected_food_dish_input.value;
+    MenuSelection.food_dish_customization = $("#food_dish_customization").val();
     menuUpdate(MenuSelection);
   }
 
@@ -141,7 +157,7 @@
     // Call Web API to update menu
     $.ajax({
       url: url,
-      type: 'PATCH',
+      type: 'PUT',
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify(menu_selection),
       success: function (menu_selection) {
