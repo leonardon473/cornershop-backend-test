@@ -156,7 +156,7 @@
 
     // Call Web API to get a Menu
     $.ajax({
-      url: `/menu/admin/api/menus/${id}`,
+      url: `/menu/api/menus/${id}`,
       type: 'GET',
       dataType: 'json',
       success: function (menu) {
@@ -207,7 +207,7 @@
   }
 
   function menuUpdate(menu) {
-    var url = `/menu/admin/api/menus/${menu.id}`;
+    var url = `/menu/api/menus/${menu.id}`;
     console.log(JSON.stringify(menu));
     // Call Web API to update menu
     $.ajax({
@@ -251,7 +251,7 @@
   function menuDelete(id) {
     // Call Web API to delete a product
     $.ajax({
-      url: `/menu/admin/api/menus/${id}`,
+      url: `/menu/api/menus/${id}`,
       type: 'DELETE',
       success: function (product) {
         window.location.replace("/menu/admin/menus");

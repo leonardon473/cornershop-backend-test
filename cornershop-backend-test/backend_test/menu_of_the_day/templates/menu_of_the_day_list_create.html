@@ -115,7 +115,7 @@
   function menuList() {
     // Call Web API to get a list of menus
     $.ajax({
-      url: '/menu/admin/api/menus',
+      url: '/menu/api/menus',
       type: 'GET',
       dataType: 'json',
       success: function (menus) {
@@ -208,7 +208,7 @@
   }
 
   function menuAdd(menu) {
-    var url = `/menu/admin/api/menus`;
+    var url = `/menu/api/menus`;
     console.log(JSON.stringify(menu));
     // Call Web API to update menu
     $.ajax({

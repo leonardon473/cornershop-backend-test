@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 
 class TestMenuOfTheDayListCreateView:
 
-    endpoint = "/menu/admin/api/menus"
+    endpoint = "/menu/api/menus"
 
     def test_list_menus_with_one_item(self):
         # Arrange

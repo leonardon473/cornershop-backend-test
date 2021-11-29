@@ -29,8 +29,8 @@ urlpatterns = [
         employee_menu_selection_retrieve_update_view,
     ),
     path("admin/", include(admin_urlpatterns)),
-    path("admin/api/menus", MenuOfTheDayListCreateApiView.as_view()),
-    path("admin/api/menus/<int:pk>", MenuOfTheDayRetrieveUpdateDestroyView.as_view()),
+    path("api/menus", MenuOfTheDayListCreateApiView.as_view()),
+    path("api/menus/<int:pk>", MenuOfTheDayRetrieveUpdateDestroyView.as_view()),
     path(
         "api/employee-menu-selections/<uuid:pk>",
         EmployeeMenuSelectionRetrieveUpdateView.as_view(),
