@@ -78,7 +78,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
     @freeze_time("2021-11-24 11:01 -03:00")
     @override_settings(TIME_LIMIT_TO_ORDER=time(11, 0))
-    def test_update_fail(self):
+    def test_update_fail_after_limit_to_order(self):
         # Arrange
         update_dict = {
             "selected_food_dish": self.food_dish.id,
@@ -90,5 +90,4 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         response = self.api_client.put(url, update_dict, format="json")
 
         # Assert
-
         assert response.status_code == 400
