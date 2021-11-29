@@ -1,6 +1,6 @@
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
-
 from model_bakery import baker
 
 from backend_test.menu_of_the_day.models import MenuOfTheDay
@@ -12,13 +12,18 @@ class TestMenuOfTheDayListCreateView:
 
     endpoint = "/menu/api/menus"
 
+    def setup_method(self, method):
+        self.api_client = APIClient()
+        User = get_user_model()
+        user = baker.make(User, is_staff=True)
+        self.api_client.force_authenticate(user)
+
     def test_list_menus_with_one_item(self):
         # Arrange
-        api_client = APIClient()
         baker.make(MenuOfTheDay)
 
         # Act
-        response = api_client.get(self.endpoint)
+        response = self.api_client.get(self.endpoint)
 
         # Assert
         data = response.json()
@@ -28,7 +33,6 @@ class TestMenuOfTheDayListCreateView:
 
     def test_create(self):
         # Arrange
-        api_client = APIClient()
         payload = {
             "date": "2021-11-24",
             "food_dishes": [{"food": "Chicken"}, {"food": "Tacos"}],
@@ -36,7 +40,7 @@ class TestMenuOfTheDayListCreateView:
         old_obj_count = MenuOfTheDay.objects.count()
 
         # Act
-        response = api_client.post(self.endpoint, data=payload, format="json")
+        response = self.api_client.post(self.endpoint, data=payload, format="json")
 
         # Assert
         data = response.json()
@@ -46,7 +50,6 @@ class TestMenuOfTheDayListCreateView:
 
     def test_retrieve(self):
         # Arrange
-        api_client = APIClient()
         menu = baker.make(MenuOfTheDay)
         expected_json = {
             "date": menu.date.strftime("%Y-%m-%d"),
@@ -55,7 +58,7 @@ class TestMenuOfTheDayListCreateView:
         url = f"{self.endpoint}/{menu.id}"
 
         # Act
-        response = api_client.get(url)
+        response = self.api_client.get(url)
 
         # Assert
         data = response.json()
@@ -65,14 +68,13 @@ class TestMenuOfTheDayListCreateView:
 
     def test_update(self):
         # Arrange
-        api_client = APIClient()
         menu = baker.make(MenuOfTheDay)
         update_dict = {"date": "2021-11-24", "food_dishes": [{"food": "Tacos"}]}
 
         url = f"{self.endpoint}/{menu.id}"
 
         # Act
-        response = api_client.put(url, update_dict, format="json")
+        response = self.api_client.put(url, update_dict, format="json")
 
         # Assert
         data = response.json()
@@ -91,14 +93,13 @@ class TestMenuOfTheDayListCreateView:
     )
     def test_partial_update(self, field: str):
         # Arrange
-        api_client = APIClient()
         menu = baker.make(MenuOfTheDay)
         menu_dict = {"date": "2021-11-24", "food_dishes": [{"food": "Tacos"}]}
         valid_field = menu_dict[field]
         url = f"{self.endpoint}/{menu.id}"
 
         # Act
-        response = api_client.patch(url, {field: valid_field}, format="json")
+        response = self.api_client.patch(url, {field: valid_field}, format="json")
 
         # Assert
         data = response.json()
@@ -111,12 +112,11 @@ class TestMenuOfTheDayListCreateView:
         assert data[field] == valid_field
 
     def test_delete(self):
-        api_client = APIClient()
         menu = baker.make(MenuOfTheDay)
         old_menus_count = MenuOfTheDay.objects.count()
         url = f"{self.endpoint}/{menu.id}"
 
-        response = api_client.delete(url)
+        response = self.api_client.delete(url)
 
         assert response.status_code == 204
         assert MenuOfTheDay.objects.count() == old_menus_count - 1
