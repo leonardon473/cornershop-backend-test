@@ -7,10 +7,7 @@ it is need and docker compose up.
 
 * `dev up` Enter to run django server.
 
-* `dev celery` Enter to run a celery worker.
-
-* `dev cbeat` Enter to run a celery beat instance.
-  It is need to execute scheduled tasks.
+* `dev celery` Enter to run a celery worker and a celery beat instance at the same time.
 
 ##### Rebuilding the base Docker image
 
