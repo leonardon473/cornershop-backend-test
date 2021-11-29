@@ -154,6 +154,7 @@ Some concept names has been changed.
 - The class UpdatableListModelSerializer should be have unit test.
 - Improve the documentation related with slack.
 - N+1 Queries must be improved.
+- Filter in EmployeeMenuSelectionListView can be improved with django-filters.
 
 ## Bibliography
 
