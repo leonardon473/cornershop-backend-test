@@ -28,6 +28,7 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
         # Arrange
         expected_json = {
             "employee": {"name": self.selection.employee.name},
+            "food_dish_customization": "",
             "menu_of_the_day": {
                 "date": self.selection.menu_of_the_day.date.strftime("%Y-%m-%d"),
                 "food_dishes": [{"food": self.food_dish.food, "id": self.food_dish.id}],
@@ -48,7 +49,10 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
     def test_update(self):
         # Arrange
-        update_dict = {"selected_food_dish": self.food_dish.id}
+        update_dict = {
+            "selected_food_dish": self.food_dish.id,
+            "food_dish_customization": "Without salt",
+        }
         url = f"{self.endpoint}/{self.selection.id}"
 
         # Act
@@ -56,6 +60,6 @@ class TestEmployeeMenuSelectionRetrieveUpdateView:
 
         # Assert
         self.selection.refresh_from_db()
-        # remove field with unpredictable value
         assert response.status_code == 200
         assert self.selection.selected_food_dish.id == self.food_dish.id
+        assert self.selection.food_dish_customization == "Without salt"
