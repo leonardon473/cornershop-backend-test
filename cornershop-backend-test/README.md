@@ -2,8 +2,15 @@
 
 ### Running the development environment
 
-* `make up`
-* `dev up`
+* `make up` Enter to execute docker build if
+it is need and docker compose up.
+
+* `dev up` Enter to run django server.
+
+* `dev celery` Enter to run a celery worker.
+
+* `dev cbeat` Enter to run a celery beat instance.
+  It is need to execute scheduled tasks.
 
 ##### Rebuilding the base Docker image
 
@@ -115,6 +122,10 @@ order.
 Based on [Django domains](https://phalt.github.io/django-api-domains/).
 Some concept names has been changed.
 
+## DB diagram
+
+![DB diagram](assets/db-diagram.png)
+
 ## Possible improvements
 - The id field in the model MenuOfTheDay can be changed by date field
   as PK if you believe it is better.
@@ -136,3 +147,4 @@ Some concept names has been changed.
 ## Bibliography
 
 - [Managing Complexity with Architecture Patterns in Python](https://klaviyo.tech/managing-complexity-with-architecture-patterns-in-python-626b895710ca)
+- [Django domains](https://phalt.github.io/django-api-domains/)
