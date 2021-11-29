@@ -153,6 +153,7 @@ Some concept names has been changed.
   improve send_menu_of_the_day_to_employees speed execution.
 - The class UpdatableListModelSerializer should be have unit test.
 - Improve the documentation related with slack.
+- N+1 Queries must be improved.
 
 ## Bibliography
 
