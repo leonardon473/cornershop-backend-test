@@ -69,6 +69,24 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Platillos ya seleccionados</h2>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Platillo</th>
+          <th>Instrucciones especiales</th>
+        </tr>
+      </thead>
+      <tbody id="employee_menu_selections">
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -177,6 +195,43 @@
         id = food_dish.id,
       )
     );
+    getMenuEmployeeSelections(menu.date)
+  }
+
+
+  function getMenuEmployeeSelections(menu_date) {
+    $.ajax({
+      url: `/menu/api/employee-menu-selections?menu_date=${menu_date}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        selectionsToTable(data.results);
+      },
+      error: function (request, message, error) {
+        handleException(request, message, error);
+      }
+    });
+  }
+
+  function selectionsToTable(selections) {
+    selections.forEach(
+      selection => addRowToTable(
+        name = selection.employee.name,
+        food = selection.selected_food_dish.food,
+        custom_instructions = selection.food_dish_customization
+      )
+    );
+  }
+
+  function addRowToTable(name, food, custom_instructions) {
+    var row = `
+      <tr>
+        <td>${name}</td>
+        <td>${food}</td>
+        <td>${custom_instructions}</td>
+      </tr>
+    `;
+    $("#employee_menu_selections").append(row);
   }
 
   // --------

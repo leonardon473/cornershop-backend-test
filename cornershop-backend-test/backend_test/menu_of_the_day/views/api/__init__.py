@@ -1,3 +1,4 @@
+from .employee_menu_selection_list import EmployeeMenuSelectionListView  # noqa
 from .employee_menu_selection_retrieve_update import (  # noqa
     EmployeeMenuSelectionRetrieveUpdateView,
 )

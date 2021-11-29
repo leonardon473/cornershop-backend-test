@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from .views.api import (
+    EmployeeMenuSelectionListView,
     EmployeeMenuSelectionRetrieveUpdateView,
     MenuOfTheDayListCreateApiView,
     MenuOfTheDayRetrieveUpdateDestroyView,
@@ -31,6 +32,10 @@ urlpatterns = [
     path("admin/", include(admin_urlpatterns)),
     path("api/menus", MenuOfTheDayListCreateApiView.as_view()),
     path("api/menus/<int:pk>", MenuOfTheDayRetrieveUpdateDestroyView.as_view()),
+    path(
+        "api/employee-menu-selections",
+        EmployeeMenuSelectionListView.as_view(),
+    ),
     path(
         "api/employee-menu-selections/<uuid:pk>",
         EmployeeMenuSelectionRetrieveUpdateView.as_view(),
