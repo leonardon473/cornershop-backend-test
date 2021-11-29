@@ -84,3 +84,4 @@ to see correctly the menu link in slack.
 - Composed keys can be used to improve DB design.
 - Limit time to order a food dish should be edited from the db.
 - Error management in send_menu_of_the_day_to_employees can be improved.
+- A flag of sent can be added to EmployeeMenuSelection.
