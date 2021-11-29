@@ -5,6 +5,7 @@
 from typing import TYPE_CHECKING
 
 # Third party libs
+from django.conf import settings
 from rest_framework.exceptions import MethodNotAllowed, ValidationError
 from rest_framework import serializers
 from rest_framework.generics import RetrieveUpdateAPIView
@@ -59,7 +60,8 @@ class EmployeeMenuSelectionUpdateSerializer(serializers.ModelSerializer):
             )
         except TimeLimitToOrderReachedException:
             raise ValidationError(
-                "El horario maximo para ordenar es a las 11:00",
+                f"El horario maximo para ordenar es a las "
+                f"{settings.TIME_LIMIT_TO_ORDER.strftime('%H:%M')}",
                 "time_limit_to_order_reached",
             )
 
