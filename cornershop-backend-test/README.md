@@ -83,3 +83,4 @@ to see correctly the menu link in slack.
 - The function to get slack can be improved by use pagination.
 - Composed keys can be used to improve DB design.
 - Limit time to order a food dish should be edited from the db.
+- Error management in send_menu_of_the_day_to_employees can be improved.
