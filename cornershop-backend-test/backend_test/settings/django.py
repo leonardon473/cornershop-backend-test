@@ -152,6 +152,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
     ],
+    "PAGE_SIZE": 24,
 }
 
 if getenv("BROWSABLE_API_RENDERER", default=False, coalesce=bool):
