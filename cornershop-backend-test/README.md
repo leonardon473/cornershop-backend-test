@@ -119,7 +119,7 @@ The async tasks are responsible to execute the
 Services at the right time and in the correct
 order.
 
-Based on [Django domains](https://phalt.github.io/django-api-domains/).
+Architecture based on [Django domains](https://phalt.github.io/django-api-domains/).
 Some concept names has been changed.
 
 ## DB diagram
