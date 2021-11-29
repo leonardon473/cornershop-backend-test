@@ -49,14 +49,13 @@ def send_menu_of_the_day_for_today_to_employees_task():
     return False
 
 
-@app.on_after_configure.connect
-def setup_periodic_tasks(sender: "Celery", **kwargs: "Any"):
-    # Executes every day at 7:00 a.m.
-    # Check the time zone conf of django.
-    sender.add_periodic_task(
-        crontab(
-            hour=7,
-            minute=0,
-        ),
-        send_menu_of_the_day_for_today_to_employees_task.s(),
-    )
+# Executes every day at 7:00 a.m.
+# Check the time zone conf of django and celery.
+app.conf.beat_schedule["send_menu_of_the_day_for_today_to_employees_task"] = {
+    "task": "backend_test.menu_of_the_day.tasks.send_menu_of_the_day_to_employees.send_menu_of_the_day_for_today_to_employees_task",
+    "schedule": crontab(
+        hour=7,
+        minute=0,
+    ),
+    "args": (),
+}
