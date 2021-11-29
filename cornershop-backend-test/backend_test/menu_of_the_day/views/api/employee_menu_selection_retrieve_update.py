@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING
 
 # Third party libs
 from django.conf import settings
-from rest_framework.exceptions import MethodNotAllowed, ValidationError
 from rest_framework import serializers
+from rest_framework.exceptions import MethodNotAllowed, ValidationError
 from rest_framework.generics import RetrieveUpdateAPIView
 
 # Project libs

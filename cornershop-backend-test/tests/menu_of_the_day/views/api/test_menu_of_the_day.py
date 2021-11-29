@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
+
 from model_bakery import baker
 
 from backend_test.menu_of_the_day.models import MenuOfTheDay

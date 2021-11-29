@@ -2,9 +2,10 @@ from datetime import date, time
 from typing import cast
 
 import pytest
-from rest_framework.test import APIClient
-from freezegun import freeze_time
 from django.test import override_settings
+from rest_framework.test import APIClient
+
+from freezegun import freeze_time
 from model_bakery import baker
 
 from backend_test.menu_of_the_day.models import EmployeeMenuSelection, FoodDish

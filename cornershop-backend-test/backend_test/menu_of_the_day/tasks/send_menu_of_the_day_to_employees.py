@@ -4,9 +4,9 @@
 # Core libs
 from typing import TYPE_CHECKING
 
-# Third party libs
-from django.conf import settings
+# Third party lib
 from celery.schedules import crontab
+from django.conf import settings
 
 # Project libs
 from backend_test.celery import app

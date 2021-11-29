@@ -3,15 +3,12 @@ from datetime import date
 
 from django.conf import settings
 
-from backend_test.menu_of_the_day.integrations.slack import (
-    send_message_to_slack_user,
-)
+from backend_test.menu_of_the_day.integrations.slack import send_message_to_slack_user
 from backend_test.menu_of_the_day.models import (
     Employee,
     EmployeeMenuSelection,
     MenuOfTheDay,
 )
-
 
 logger = logging.getLogger(__name__)
 
