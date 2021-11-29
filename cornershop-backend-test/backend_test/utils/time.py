@@ -29,3 +29,11 @@ if TYPE_CHECKING:
 
 def now() -> datetime:
     return datetime.now(timezone.get_default_timezone())
+
+
+def localize(dt: datetime) -> datetime:
+    """
+    Set default timezone to a datetime naive.
+    """
+    tz = timezone.get_default_timezone()
+    return tz.localize(dt)
