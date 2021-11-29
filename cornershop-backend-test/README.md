@@ -143,6 +143,8 @@ Some concept names has been changed.
 - Celery beat database should be changed to Django db instead of the file db.
 - Services and Integration should be have a abstraction or interface to be easy
   to be changed.
+- The func send_message_to_slack_user can be run async in multiple workers to
+  improve send_menu_of_the_day_to_employees speed execution.
 
 ## Bibliography
 
