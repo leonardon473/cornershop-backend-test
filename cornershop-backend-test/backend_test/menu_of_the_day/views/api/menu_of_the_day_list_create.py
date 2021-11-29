@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 # Third party libs
 from rest_framework import serializers
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAdminUser
 
 # Project libs
 from backend_test.menu_of_the_day.models import FoodDish, MenuOfTheDay
@@ -75,4 +76,5 @@ class MenuOfTheDayListSerializer(serializers.ModelSerializer):
 
 class MenuOfTheDayListCreateApiView(ListCreateAPIView):
     queryset = MenuOfTheDay.objects.order_by("date")
+    permission_classes = (IsAdminUser,)
     serializer_class = MenuOfTheDayCreateSerializer
