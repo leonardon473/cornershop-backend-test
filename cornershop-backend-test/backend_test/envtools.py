@@ -1,5 +1,6 @@
 import ast
 import os
+from datetime import datetime
 from typing import Callable, TypeVar
 
 T = TypeVar("T")
@@ -21,3 +22,7 @@ def getenv(
     except (ValueError, SyntaxError):
         pass
     return coalesce(value)
+
+
+def parse_time(time_str: str):
+    return datetime.strptime(time_str, "%H:%M").time()

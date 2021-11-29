@@ -71,8 +71,12 @@ make up
 ```
 
 ## .env
-When set the variable BACKEND_HOST start the host with http:// o https://
+- `BACKEND_HOST` At set the env var, start the host with http:// o https://
 to see correctly the menu link in slack.
+- `TIME_LIMIT_TO_ORDER` Used to limit the time employees can order their menu.
+  Format "HH:MM".
+- `TIME_TO_SEND_MENU` Time when the menu of the day is sent to employees.
+  Format "HH:MM".
 
 ## Concerts
 - The time zone used in this project is Chile/Continental that is equal to
