@@ -5,12 +5,16 @@
 from typing import TYPE_CHECKING
 
 # Third party libs
-from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.exceptions import MethodNotAllowed, ValidationError
 from rest_framework import serializers
 from rest_framework.generics import RetrieveUpdateAPIView
 
 # Project libs
 from backend_test.menu_of_the_day.models import EmployeeMenuSelection
+from backend_test.menu_of_the_day.services.update_employee_menu_selection import (
+    TimeLimitToOrderReachedException,
+    update_employee_menu_selection_service,
+)
 
 # If type checking, __all__
 if TYPE_CHECKING:
@@ -43,6 +47,21 @@ class EmployeeMenuSelectionUpdateSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance: EmployeeMenuSelection) -> "Dict[str, Any]":
         return EmployeeMenuSelectionRetrieveSerializer(instance).data
+
+    def update(
+        self, instance: "EmployeeMenuSelection", validated_data: "Dict[str, Any]"
+    ):
+        try:
+            return update_employee_menu_selection_service(
+                employee_menu_selection=instance,
+                selected_food_dish_id=validated_data["selected_food_dish"].id,
+                food_dish_customization=validated_data["food_dish_customization"],
+            )
+        except TimeLimitToOrderReachedException:
+            raise ValidationError(
+                "El horario maximo para ordenar es a las 11:00",
+                "time_limit_to_order_reached",
+            )
 
 
 # ---------------------
