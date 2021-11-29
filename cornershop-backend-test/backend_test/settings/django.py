@@ -236,3 +236,5 @@ LOGGING = {
         },
     },
 }
+
+LOGIN_REDIRECT_URL = "admin:menu-listing"

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} Admin login {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Administrador de Menús del día para empleados de Cornershop</h2>
+        </div>
+    </div>
+    <form action="{% url 'admin:login' %}" method="post">
+        {% csrf_token %}
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Login</div>
+                <div class="panel-body">
+                    {% if error_message %}
+                    <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                    {% endif %}
+                    <div class="form-group clearfix">
+                        <label for="username" class="col-md-4 control-label text-right">Username:</label>
+                        <div class="col-md-6">
+                            <input name="username" value="" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="password" class="col-md-4 control-label text-right">Password:</label>
+                        <div class="col-md-6">
+                            <input name="password" type="password" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-md-offset-4">
+                        <input name="login" type="submit" value="Login" class="btn btn-success" /> &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
