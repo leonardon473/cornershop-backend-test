@@ -7,6 +7,7 @@ from .views.api import (
 )
 from .views.html import (
     employee_menu_selection_retrieve_update_view,
+    logout_view,
     menu_of_the_day_list_create,
     menu_of_the_day_retrieve_update_destroy,
     user_login_view,
@@ -15,6 +16,7 @@ from .views.html import (
 admin_urlpatterns = (
     [
         path("login", user_login_view, name="login"),
+        path("logout", logout_view, name="logout"),
         path("menus", menu_of_the_day_list_create, name="menu-listing"),
         path("menus/<int:id>", menu_of_the_day_retrieve_update_destroy),
     ],

@@ -238,3 +238,4 @@ LOGGING = {
 }
 
 LOGIN_REDIRECT_URL = "admin:menu-listing"
+LOGOUT_REDIRECT_URL = "admin:login"
