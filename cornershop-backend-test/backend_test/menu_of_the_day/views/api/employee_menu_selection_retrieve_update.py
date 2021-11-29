@@ -5,6 +5,7 @@
 from typing import TYPE_CHECKING
 
 # Third party libs
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework import serializers
 from rest_framework.generics import RetrieveUpdateAPIView
 
@@ -93,3 +94,7 @@ class EmployeeMenuSelectionRetrieveUpdateView(RetrieveUpdateAPIView):
 
     def get_queryset(self):
         return EmployeeMenuSelection.objects.all()
+
+    def patch(self, *args: "Any", **kwargs: "Any"):
+        # Patch method is deleted to simplify logic
+        raise MethodNotAllowed(method="patch")
