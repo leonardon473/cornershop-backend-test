@@ -132,3 +132,7 @@ Some concept names has been changed.
 - Celery beat database should be changed to Django db instead of the file db.
 - Services and Integration should be have a abstraction or interface to be easy
   to be changed.
+
+## Bibliography
+
+- [Managing Complexity with Architecture Patterns in Python](https://klaviyo.tech/managing-complexity-with-architecture-patterns-in-python-626b895710ca)
