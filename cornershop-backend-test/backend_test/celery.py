@@ -14,14 +14,14 @@ class CelerySettings:
     CELERY_ACCEPT_CONTENT = ["json"]
     # Time and date settings
     # https://docs.celeryproject.org/en/v4.3.0/userguide/configuration.html#time-and-date-settings
-    CELERY_ENABLE_UTC = True
-    CELERY_TIMEZONE = "UTC"
+    CELERY_ENABLE_UTC = False
+    CELERY_TIMEZONE = "Chile/Continental"
     # Task settings
     # https://docs.celeryproject.org/en/v4.3.0/userguide/configuration.html#task-settings
     CELERY_TASK_SERIALIZER = "json"
     # Task execution settings
     # https://docs.celeryproject.org/en/v4.3.0/userguide/configuration.html#task-execution-settings
-    CELERY_ALWAYS_EAGER = True
+    CELERY_ALWAYS_EAGER = False
     CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
     CELERY_IGNORE_RESULT = getenv("CELERY_IGNORE_RESULT", default="True", coalesce=bool)
     CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
