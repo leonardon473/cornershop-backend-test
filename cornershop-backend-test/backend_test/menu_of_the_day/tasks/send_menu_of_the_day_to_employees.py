@@ -5,6 +5,7 @@
 from typing import TYPE_CHECKING
 
 # Third party libs
+from django.conf import settings
 from celery.schedules import crontab
 
 # Project libs
@@ -19,10 +20,7 @@ from backend_test.utils.time import now
 
 # If type checking, __all__
 if TYPE_CHECKING:
-    from typing import Any
-    from datetime import date
-
-    from celery.app import Celery
+    pass
 
 # -----------------------------------------------------------------------------
 # Constants
@@ -54,8 +52,8 @@ def send_menu_of_the_day_for_today_to_employees_task():
 app.conf.beat_schedule["send_menu_of_the_day_for_today_to_employees_task"] = {
     "task": "backend_test.menu_of_the_day.tasks.send_menu_of_the_day_to_employees.send_menu_of_the_day_for_today_to_employees_task",
     "schedule": crontab(
-        hour=7,
-        minute=0,
+        hour=settings.TIME_TO_SEND_MENU.hour,
+        minute=settings.TIME_TO_SEND_MENU.minute,
     ),
     "args": (),
 }
