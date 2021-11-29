@@ -83,9 +83,8 @@ class UpdatableListModelSerializer(serializers.ListSerializer):
         assert relation_field is not None
 
         # Delete objects not present in validated data
-        ModelClass.objects.exclude(
+        ModelClass.objects.filter(menu_of_the_day=instance).exclude(
             id__in=[i[self.id_key] for i in validated_data if i.get(self.id_key)],
-            menu_of_the_day=instance,
         ).delete()
 
         updated_or_created_objects: "List[Model]" = []
