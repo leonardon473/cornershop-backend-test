@@ -5,6 +5,9 @@ _usage() {
   echo "running the server"
   echo "    up        start the server in development mode"
   echo ""
+  echo "running celery"
+  echo "    celery    one worker of celery is started and a celery beat instance"
+  echo ""
   echo "testing code"
   echo "    test      run tests, accepts test names as arguments"
   echo "    cov       run tests with coverage"
@@ -33,7 +36,10 @@ up|run|server|runserver)
   python manage.py runserver 0.0.0.0:8000
 ;;
 celery)
-  celery -A $APP worker -Q $QUEUES
+  celery -A $APP worker -Q $QUEUES -B
+;;
+cbeat)
+  celery -A $APP beat
 ;;
 test)
   pytest "$@" --flake8 --isort --black --junitxml=/dev/shm/test-results/pytest.xml
