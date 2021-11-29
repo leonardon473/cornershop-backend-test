@@ -156,6 +156,14 @@ Some concept names has been changed.
 - N+1 Queries must be improved.
 - Filter in EmployeeMenuSelectionListView can be improved with django-filters.
 
+## Videos
+
+- [Reto técnico Cornershop | Parte 1](https://www.loom.com/share/c50d564ee60f432eba85657bb32fdb7a?sharedAppSource=personal_library)
+- [Reto técnico Cornershop | Parte 2](https://www.loom.com/share/93cdc03aab8e4eb591c11ab4ee946a85?sharedAppSource=personal_library)
+- [Reto técnico Cornershop | Parte 3](https://www.loom.com/share/55f062fd2b2f4fdcb5335cedbb28da41?sharedAppSource=personal_library)
+- [Reto técnico Cornershop | Parte 4](https://www.loom.com/share/75f69df6e28741bb97200508b874dceb?sharedAppSource=personal_library)
+- [Reto técnico Cornershop | Parte 5](https://www.loom.com/share/62cecd335df74a5298658e1359f346f2?sharedAppSource=personal_library)
+
 ## Bibliography
 
 - [Managing Complexity with Architecture Patterns in Python](https://klaviyo.tech/managing-complexity-with-architecture-patterns-in-python-626b895710ca)
