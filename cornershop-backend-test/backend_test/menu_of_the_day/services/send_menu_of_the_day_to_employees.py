@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 def send_menu_of_the_day_to_employees(menu_date: "date"):
     """
     menu_date: Date of the MenuOfTheDate
+    Send the menu of the day wit the date "menu_date" to all employees in the db
+    with a Slack id.
     """
     try:
         menu_of_the_day = MenuOfTheDay.objects.get(date=menu_date)

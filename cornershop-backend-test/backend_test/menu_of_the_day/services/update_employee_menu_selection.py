@@ -15,6 +15,11 @@ def update_employee_menu_selection_service(
     selected_food_dish_id: int,
     food_dish_customization: str,
 ):
+    """
+    Update a instance of EmployeeMenuSelection.
+    If the limit to order is exceeded a TimeLimitToOrderReachedException is
+    raised.
+    """
     menu_date = employee_menu_selection.menu_of_the_day.date
     menu_limit_to_order = localize(
         datetime.combine(menu_date, settings.TIME_LIMIT_TO_ORDER)
