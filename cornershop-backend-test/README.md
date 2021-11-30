@@ -17,6 +17,12 @@ it is need and docker compose up.
 
 * `make reset`
 
+##### First container up
+
+* `cp dev.env .env` Create a .env with test keys.
+  If you use the test `SLACK_BOT_TOKEN` you must contact me to join
+  to me slack workspace.
+
 ### Hostnames for accessing the service directly
 
 * Local: http://127.0.0.1:8000
@@ -68,6 +74,7 @@ make up
 ```
 
 ## .env
+
 - `BACKEND_HOST` At set the env var, start the host with http:// o https://
 to see correctly the menu link in slack.
 - `TIME_LIMIT_TO_ORDER` Used to limit the time employees can order their menu.
