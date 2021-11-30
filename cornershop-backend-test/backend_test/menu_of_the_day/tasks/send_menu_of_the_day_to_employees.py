@@ -37,6 +37,10 @@ if TYPE_CHECKING:
 
 @app.task
 def send_menu_of_the_day_for_today_to_employees_task():
+    """
+    Update employees table from slack workspace users and then send them
+    the menu of the day vía slack.
+    """
     menu_date = now().date()
     update_emplooyes_from_slack()
     try:
