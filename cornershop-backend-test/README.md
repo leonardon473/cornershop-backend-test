@@ -84,6 +84,51 @@ to see correctly the menu link in slack.
 - `SLACK_BOT_TOKEN` It is a Bot User OAuth Token with scopes chat:write and
   users:read.
 
+### How to get a Slack bot token
+A bot is a type of Slack App designed to interact with users via conversation.
+
+A bot is the same as a regular app: it can access the same range of APIs and
+do all of the magical things that a Slack App can do.
+
+#### Creating and installing our app
+
+First thing first, let us create a bot in Slack UI.
+
+  - Go to https://api.slack.com/ then "Create an app".
+  - Select "From scratch".
+  - Provide the bot name you want, I will name my bot Nore, and the
+    workspace where it will be installed, mine is Leonardo Personal Workspace,
+    and hit "create app".
+
+After this, you will be redirected to another page where you can configure your
+app. Here we will make some changes.
+
+  - Go to "OAuth & Permissions". Here we will add the necessary scope
+    and permissions for our bot. For now, we will add `chat:write` and
+    `groups:read` under "Bot Token Scopes".
+
+![Slack bot token scopes](assets/slack-bot-token-scopes.png)
+
+- Once you have these scopes added, scroll up and click "Install to workspace".
+
+![Installing app](assets/slack-install-app.png)
+
+- This is the review stage, where you can review one last time all the
+permissions the app will have once installed in your workspace. Once
+you're satisfied click "allow" (ignore the bot name in this screenshot).
+
+![Accept permissions](assets/slack-accept-permissions.png)
+
+- After the app is installed, you will be given a "Bot User OAuth Token".
+Copy and save it somewhere, we will be using it in some time.
+
+![Get slack token](assets/slack-get-bot-token.png)
+
+- Once you are done with all the above steps you can see the bot you
+created under "Apps" in the selected Workspace.
+
+![Slack app in the workspace](assets/slack-app-in-workspace.png)
+
 ## Concerts
 - The time zone used in this project is Chile/Continental that is equal to
   UTC-4 but in summer UTC-3 is in use.
