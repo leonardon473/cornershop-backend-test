@@ -19,9 +19,7 @@ it is need and docker compose up.
 
 ##### First container up
 
-* `cp dev.env .env` Create a .env with test keys.
-  If you use the test `SLACK_BOT_TOKEN` you must contact me to join
-  to me slack workspace.
+* `cp dev.env .env` Create a .env with test keys. Set the `SLACK_BOT_TOKEN` variable.
 
 ### Hostnames for accessing the service directly
 
