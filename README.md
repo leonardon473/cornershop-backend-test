@@ -1,13 +1,4 @@
-# Cornershop's Backend Test 
-
-This technical test requires the design and implementation (using Django and Celery) of a management system to coordinate the meal delivery for Cornershop employees.
-
-We provide a nice boilerplate project with Django and Celery up and running so you can use your time more wisely.
-
-## After you finish your test please share this repository with: @Cornershop-hr @Alecornershop @roherrera @stichy23
-
-Should you have any technical questions, please contact osvaldo@cornershopapp.com
-Title of the project: Backend-Test-(Last Name)
+# Backend code challenge
 
 ## Description
 
